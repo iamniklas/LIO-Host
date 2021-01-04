@@ -89,8 +89,6 @@ public class LEDStripManager implements ProcedureCalls {
 	 * @param _color The color to fill the strip with
 	 */
 	public void setAllPixels(Color _color) {
-		if (stripData == null) System.out.println("STRIPDAT ERR");
-		if (stripData.strip == null) System.out.println("STRIP ERR");
 		for (int i = 0; i < LED_COUNT; i++) {
 			stripData.strip.set(i, _color);
 		}
