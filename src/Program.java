@@ -1,7 +1,3 @@
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.TimerTask;
-
 import com.github.mbelling.ws281x.Color;
 
 import led.LEDStripManager;
@@ -13,13 +9,13 @@ public class Program implements ReceiveCallback {
 	LEDStripManager strip;
 	Server server;
 	
-	public Program() throws InterruptedException {
+	public Program(boolean _clearOnExit) throws InterruptedException {
 		System.out.println("Program \tINIT \tSTART");
 		server = new Server(3333);
 		server.setListener(this);
 		server.start();
 		
-		strip = new LEDStripManager();
+		strip = new LEDStripManager(_clearOnExit);
 		System.out.println("Program \tINIT \tDONE");
 	}
 	

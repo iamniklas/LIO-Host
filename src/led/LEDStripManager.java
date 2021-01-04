@@ -5,6 +5,7 @@ import com.github.mbelling.ws281x.Color;
 import com.github.mbelling.ws281x.LedStripType;
 import com.github.mbelling.ws281x.Ws281xLedStrip;
 
+import procedures.ColorInstantSetProcedure;
 import procedures.NoLongerReadyProcedure;
 import procedures.ProcContainer;
 import procedures.ProcedureCalls;
@@ -19,7 +20,7 @@ public class LEDStripManager implements ProcedureCalls {
 	final static int PWM_CHANNEL = 0;
 	final static boolean INVERT = false;
 	final static LedStripType LED_STRIP_TYPE = LedStripType.WS2811_STRIP_GRB;
-	final static boolean CLEAR_ON_EXIT = true;
+	boolean clearOnExit = true;
 
 	boolean runRedAlertOnlyOnce = false;
 	
@@ -29,8 +30,10 @@ public class LEDStripManager implements ProcedureCalls {
 	
 	public ProcContainer procContainer = new ProcContainer(this);
 	
-	public LEDStripManager() throws InterruptedException {
+	public LEDStripManager(boolean _clearOnExit) throws InterruptedException {
 		System.out.println("LED Strip \tINIT \tSTART");
+		
+		clearOnExit = _clearOnExit;
 		
 		strip = new Ws281xLedStrip(
 						LED_COUNT, 
@@ -41,7 +44,7 @@ public class LEDStripManager implements ProcedureCalls {
 						PWM_CHANNEL, 
 						INVERT,
 						LED_STRIP_TYPE, 
-						CLEAR_ON_EXIT);
+						clearOnExit);
 		
 		System.out.println("LED Strip \tINIT \tDONE");
 		
@@ -103,7 +106,7 @@ public class LEDStripManager implements ProcedureCalls {
 	public void onProcedureFinish() {
 		System.out.println("Procedure is done");
 		if (!runRedAlertOnlyOnce) {
-			NoLongerReadyProcedure nexProc = new NoLongerReadyProcedure();
+			ColorInstantSetProcedure nexProc = new ColorInstantSetProcedure(new Color(128, 64, 0));
 			nexProc.callbacks = this;
 			nexProc.strip = this;
 			procContainer.setProcedure(nexProc);
