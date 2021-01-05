@@ -2,6 +2,7 @@ package procedures;
 
 import com.github.mbelling.ws281x.Color;
 
+//A signal animation to notify the user that the strip is no longer ready for any reason (internal error, network disconnect, etc.)
 public class NoLongerReadyProcedure extends Procedure {
 
 	int totalSteps = 60;

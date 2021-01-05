@@ -1,15 +1,15 @@
 package led;
-import java.util.Arrays;
 
 import com.github.mbelling.ws281x.Color;
 import com.github.mbelling.ws281x.LedStripType;
 import com.github.mbelling.ws281x.Ws281xLedStrip;
 
 import procedures.ColorInstantSetProcedure;
-import procedures.NoLongerReadyProcedure;
+import procedures.FadeInFadeOutProcedure;
+import procedures.FillStripProcedure;
 import procedures.ProcContainer;
 import procedures.ProcedureCalls;
-import procedures.ReadyProcedure;
+import procedures.BootCompleteProcedure;
 
 public class LEDStripManager implements ProcedureCalls {
 	final static int LED_COUNT = 300;
@@ -48,10 +48,35 @@ public class LEDStripManager implements ProcedureCalls {
 		
 		System.out.println("LED Strip \tINIT \tDONE");
 		
-		ReadyProcedure proc = new ReadyProcedure();
+		FadeInFadeOutProcedure procR = new FadeInFadeOutProcedure(Color.RED);
+		procR.strip = this;
+		procR.callbacks = this;
+		procContainer.queueProcedure(procR);
+		
+		FadeInFadeOutProcedure procG = new FadeInFadeOutProcedure(Color.GREEN);
+		procG.strip = this;
+		procG.callbacks = this;
+		procContainer.queueProcedure(procG);
+		
+		FadeInFadeOutProcedure procB = new FadeInFadeOutProcedure(Color.BLUE);
+		procB.strip = this;
+		procB.callbacks = this;
+		procContainer.queueProcedure(procB);
+		
+		FadeInFadeOutProcedure procM = new FadeInFadeOutProcedure(Color.MAGENTA);
+		procM.strip = this;
+		procM.callbacks = this;
+		procContainer.queueProcedure(procM);
+		
+		FillStripProcedure fillProc = new FillStripProcedure();
+		fillProc.strip = this;
+		fillProc.callbacks = this;
+		procContainer.queueProcedure(fillProc);
+		
+		BootCompleteProcedure proc = new BootCompleteProcedure();
 		proc.strip = this;
 		proc.callbacks = this;
-		procContainer.setProcedure(proc);
+		procContainer.queueProcedure(proc);
 	}
 	
 	public void update() {
@@ -103,14 +128,13 @@ public class LEDStripManager implements ProcedureCalls {
 	}
 
 	@Override
-	public void onProcedureFinish() {
-		System.out.println("Procedure is done");
-		if (!runRedAlertOnlyOnce) {
-			ColorInstantSetProcedure nexProc = new ColorInstantSetProcedure(new Color(128, 64, 0));
-			nexProc.callbacks = this;
-			nexProc.strip = this;
-			procContainer.setProcedure(nexProc);
-			runRedAlertOnlyOnce = true;
-		}
+	public void onProcedureQueued() {
+		System.out.println("Procedure queued");
 	}
+	
+	@Override
+	public void onProcedureFinish() {
+		System.out.println("Procedure done");
+	}
+
 }

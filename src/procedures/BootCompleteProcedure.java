@@ -2,7 +2,8 @@ package procedures;
 
 import com.github.mbelling.ws281x.Color;
 
-public class ReadyProcedure extends Procedure {
+//A signal animation for the user that the strip is ready for use
+public class BootCompleteProcedure extends Procedure {
 
 	int stepsTotal = 720;
 	
@@ -17,7 +18,7 @@ public class ReadyProcedure extends Procedure {
 		
 		if(step >= stepsTotal) {
 			strip.setAllPixels(Color.BLACK);
-			strip.procContainer.procedure = null;
+			strip.procContainer.removeCurrentProcedure();
 			finishProcedure();
 		}
 		

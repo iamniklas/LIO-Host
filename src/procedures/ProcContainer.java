@@ -1,23 +1,33 @@
 package procedures;
 
+import java.util.ArrayList;
+
 import led.LEDStripManager;
 
 public class ProcContainer {
 	LEDStripManager ledStrip;
-	Procedure procedure;
+	ArrayList<Procedure> procedure = new ArrayList<Procedure>();
 	
 	public ProcContainer(LEDStripManager _ledStripMng) {
 		ledStrip = _ledStripMng;
 	}
 	
-	public void setProcedure(Procedure _proc) {
-		procedure = _proc;
-		procedure.callbacks.onProcedureStart();
+	public void queueProcedure(Procedure _proc) {
+		procedure.add(_proc);
+		_proc.callbacks.onProcedureQueued();
+	}
+	
+	public void removeCurrentProcedure() {
+		procedure.remove(0);
+		
+		if (procedure.size() > 0) {
+			procedure.get(0).callbacks.onProcedureStart();
+		}
 	}
 	
 	public void update() {
-		if(procedure == null) return;
+		if(procedure.size() < 1) return;
 		
-		procedure.update();
+		procedure.get(0).update();
 	}
 }
