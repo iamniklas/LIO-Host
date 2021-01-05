@@ -6,17 +6,22 @@ import com.github.mbelling.ws281x.Color;
 public class FillStripProcedure extends Procedure {
 
 	int totalSteps = 290; //matches strip length
+	Color fillColor = Color.BLACK;
+	
+	public FillStripProcedure(Color _fillColor) {
+		fillColor = _fillColor;
+	}
 	
 	@Override
 	void update() {
 		for (int i = 0; i < 5; i++) {
-			strip.setPixel(step + i, Color.MAGENTA);
+			strip.setPixel(step + i, fillColor);
 		}
 		
 		step+=5;
 		
 		if (step >= totalSteps) {
-			strip.setAllPixels(Color.BLACK);
+			//strip.setAllPixels(Color.BLACK);
 			strip.procContainer.removeCurrentProcedure();
 			finishProcedure();
 		}

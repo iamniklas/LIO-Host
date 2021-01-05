@@ -1,5 +1,7 @@
 package led;
 
+import java.util.Random;
+
 import com.github.mbelling.ws281x.Color;
 import com.github.mbelling.ws281x.LedStripType;
 import com.github.mbelling.ws281x.Ws281xLedStrip;
@@ -21,14 +23,14 @@ public class LEDStripManager implements ProcedureCalls {
 	final static boolean INVERT = false;
 	final static LedStripType LED_STRIP_TYPE = LedStripType.WS2811_STRIP_GRB;
 	boolean clearOnExit = true;
-
-	boolean runRedAlertOnlyOnce = false;
 	
 	private static Ws281xLedStrip strip;
 	
 	LEDStrip stripData = new LEDStrip(LED_COUNT);
 	
 	public ProcContainer procContainer = new ProcContainer(this);
+	
+	Random colorGenerator = new Random();
 	
 	public LEDStripManager(boolean _clearOnExit) throws InterruptedException {
 		System.out.println("LED Strip \tINIT \tSTART");
@@ -47,31 +49,6 @@ public class LEDStripManager implements ProcedureCalls {
 						clearOnExit);
 		
 		System.out.println("LED Strip \tINIT \tDONE");
-		
-		FadeInFadeOutProcedure procR = new FadeInFadeOutProcedure(Color.RED);
-		procR.strip = this;
-		procR.callbacks = this;
-		procContainer.queueProcedure(procR);
-		
-		FadeInFadeOutProcedure procG = new FadeInFadeOutProcedure(Color.GREEN);
-		procG.strip = this;
-		procG.callbacks = this;
-		procContainer.queueProcedure(procG);
-		
-		FadeInFadeOutProcedure procB = new FadeInFadeOutProcedure(Color.BLUE);
-		procB.strip = this;
-		procB.callbacks = this;
-		procContainer.queueProcedure(procB);
-		
-		FadeInFadeOutProcedure procM = new FadeInFadeOutProcedure(Color.MAGENTA);
-		procM.strip = this;
-		procM.callbacks = this;
-		procContainer.queueProcedure(procM);
-		
-		FillStripProcedure fillProc = new FillStripProcedure();
-		fillProc.strip = this;
-		fillProc.callbacks = this;
-		procContainer.queueProcedure(fillProc);
 		
 		BootCompleteProcedure proc = new BootCompleteProcedure();
 		proc.strip = this;
@@ -135,6 +112,17 @@ public class LEDStripManager implements ProcedureCalls {
 	@Override
 	public void onProcedureFinish() {
 		System.out.println("Procedure done");
+		
+		int r, g, b;
+		r = colorGenerator.nextInt(255);
+		g = colorGenerator.nextInt(255);
+		b = colorGenerator.nextInt(255);
+		Color nextColor = new Color(r, g, b);
+		
+		FillStripProcedure fillProc = new FillStripProcedure(nextColor);
+		fillProc.strip = this;
+		fillProc.callbacks = this;
+		procContainer.queueProcedure(fillProc);
 	}
 
 }
