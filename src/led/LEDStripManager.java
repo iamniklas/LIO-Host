@@ -112,6 +112,15 @@ public class LEDStripManager implements ProcedureCalls {
 	@Override
 	public void onProcedureFinish() {
 		System.out.println("Procedure done");
+		
+//		int r = colorGenerator.nextInt(Math.abs(colorGenerator.nextInt(180)));
+//		int g = colorGenerator.nextInt(Math.abs(colorGenerator.nextInt(180)));
+//		int b = colorGenerator.nextInt(Math.abs(colorGenerator.nextInt(180)));
+//		Color color = new Color(r, g, b);
+//		FillStripProcedure fillProc = new FillStripProcedure(color);
+//		fillProc.callbacks = this;
+//		fillProc.strip = this;
+//		procContainer.queueProcedure(fillProc);
 	}
 
 }

@@ -3,6 +3,7 @@ import com.github.mbelling.ws281x.Color;
 import led.LEDStripManager;
 import network.ReceiveCallback;
 import network.Server;
+import procedures.ColorInstantSetProcedure;
 import procedures.FillStripProcedure;
 
 public class Program implements ReceiveCallback {
