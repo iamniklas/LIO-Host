@@ -15,6 +15,9 @@ public class Receiver extends Thread {
 	DataInputStream dataInputStream;
 	ReceiveCallback callback;
 	
+	enum ClientType {UNSPECIFIED, CS, CPP, Java}
+	ClientType mClientType = ClientType.UNSPECIFIED;
+	
 	public Receiver(Socket _socket, InputStream _inStream, ReceiveCallback _callback) {
 		socket = _socket;
 		inputStream = _inStream;
@@ -22,36 +25,34 @@ public class Receiver extends Thread {
 		callback = _callback;
 	}
 	
-	public void run() {
+	public synchronized void run() {
 		while(!socket.isClosed()) {
 			try {
-				//For Java Client
-				//callback.onReceiveMessage(inStream.readUTF());
+				String stringBuffer = "";
+				int incomingSize = 0;
 				
-				System.out.println("Fick dich CS");
+				switch (mClientType) {
+				case CS:
+					incomingSize = dataInputStream.readByte();
+					stringBuffer = readString(incomingSize);
+					callback.onReceiveMessage(stringBuffer);
+					break;
 				
-				//Java 8 for C# Client
-				//Java 8 for C# Client
-				int incomingsize = dataInputStream.readByte();
-				System.out.println("Incoming: " + incomingsize);
-				
-				byte[] msgBinary = new byte[incomingsize];
-				for (int i = 0; i < msgBinary.length; i++) {
-					msgBinary[i] = dataInputStream.readByte();
+				case Java:
+					callback.onReceiveMessage(dataInputStream.readUTF());
+					break;
+					
+				case CPP:
+					
+					break;
+					
+				case UNSPECIFIED:
+					System.out.println("F");
+					incomingSize = dataInputStream.readByte();
+					mClientType = ClientType.values()[incomingSize];
+					System.out.println("Client is of type " + mClientType);
+					break;
 				}
-				
-				//byte[] b = inputStream.readNBytes(incomingsize);
-				
-				String msg = new String(msgBinary, StandardCharsets.UTF_8);
-				callback.onReceiveMessage(msg);
-				
-				//Java 9 for C# Client
-				//byte[] byteInput = inStream.readAllBytes();
-				//String msg = new String(byteInput, StandardCharsets.UTF_8);
-				
-				//if(!msg.isEmpty()) {
-				//	callback.onReceiveMessage(msg);
-				//}
 			}
 			catch (IOException e) {
 				try {
@@ -62,5 +63,13 @@ public class Receiver extends Thread {
 				}
 			}
 		}
+	}
+	
+	String readString(int _size) throws IOException {
+		byte[] messageBinary = new byte[_size];
+		for (int i = 0; i < messageBinary.length; i++) {
+			messageBinary[i] = dataInputStream.readByte();
+		}
+		return new String(messageBinary, StandardCharsets.UTF_8);
 	}
 }
