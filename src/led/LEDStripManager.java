@@ -11,6 +11,8 @@ import procedures.FadeInFadeOutProcedure;
 import procedures.FillStripProcedure;
 import procedures.ProcContainer;
 import procedures.ProcedureCalls;
+import procedures.ProcedureFactory;
+import procedures.ProcedureTypes;
 import procedures.BootCompleteProcedure;
 
 public class LEDStripManager implements ProcedureCalls {
@@ -50,7 +52,7 @@ public class LEDStripManager implements ProcedureCalls {
 		
 		System.out.println("LED Strip \tINIT \tDONE");
 		
-		BootCompleteProcedure proc = new BootCompleteProcedure();
+		BootCompleteProcedure proc = (BootCompleteProcedure) ProcedureFactory.instance.getProcedure(ProcedureTypes.BootComplete, Color.BLACK);
 		proc.strip = this;
 		proc.callbacks = this;
 		procContainer.queueProcedure(proc);

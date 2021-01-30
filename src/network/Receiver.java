@@ -43,7 +43,9 @@ public class Receiver extends Thread {
 					break;
 					
 				case CPP:
-					
+					incomingSize = dataInputStream.readByte();
+					stringBuffer = readString(incomingSize);
+					callback.onReceiveMessage(stringBuffer);
 					break;
 					
 				case UNSPECIFIED:
