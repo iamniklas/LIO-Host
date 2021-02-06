@@ -5,17 +5,21 @@ import com.github.mbelling.ws281x.Color;
 //Animation to fill the strip from a given direction (left, right, center, bounds) with a given color 
 public class FillStripProcedure extends Procedure {
 
-	int totalSteps = 290; //matches strip length
+	int totalSteps = 300; //matches strip length
 	Color fillColor = Color.BLACK;
+	public int modulo = 1;
 	
-	public FillStripProcedure(Color _fillColor) {
+	public FillStripProcedure(Color _fillColor, int _modulo) {
 		fillColor = _fillColor;
+		modulo = _modulo;
 	}
 	
 	@Override
 	void update() {
 		for (int i = 0; i < 5; i++) {
-			strip.setPixel(step + i, fillColor);
+			if ((step+i) % modulo == 0) {
+				strip.setPixel(step + i, fillColor);		
+			}
 		}
 		
 		step+=5;

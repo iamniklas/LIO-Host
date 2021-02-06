@@ -19,7 +19,7 @@ public class ProcedureFactory {
 		case FadeInFadeOut: 	 return new FadeInFadeOutProcedure(_tarColor);
 		case FadeToMultiColor: 	 return new FadeToMultiColorProcedure(_tarColor);
 		case FadeToUniformColor: return new FadeToUniformColorProcedure(_tarColor);
-		case Fill: 				 return new FillStripProcedure(_tarColor);
+		case Fill: 				 return new FillStripProcedure(_tarColor, 1);
 		case NoLongerReady:		 return new NoLongerReadyProcedure();
 		default: 				 return null;
 		}

@@ -3,7 +3,6 @@ import com.github.mbelling.ws281x.Color;
 import led.LEDStripManager;
 import network.ReceiveCallback;
 import network.Server;
-import procedures.ColorInstantSetProcedure;
 import procedures.FillStripProcedure;
 
 public class Program implements ReceiveCallback {
@@ -30,11 +29,13 @@ public class Program implements ReceiveCallback {
 		System.out.println("Message received " + _message);
 		String[] parts = _message.split(" ");
 		Color color = new Color(
-				Integer.parseInt(parts[0]), 
 				Integer.parseInt(parts[1]), 
-				Integer.parseInt(parts[2]));
+				Integer.parseInt(parts[2]), 
+				Integer.parseInt(parts[3]));
 		
-		FillStripProcedure fillStrip = new FillStripProcedure(color);
+		int mod = Integer.parseInt(parts[0]);
+		System.out.println("MOD RECEIVE: " + mod);
+		FillStripProcedure fillStrip = new FillStripProcedure(color, mod);
 		fillStrip.strip = strip;
 		fillStrip.callbacks = strip;
 		strip.procContainer.queueProcedure(fillStrip);
