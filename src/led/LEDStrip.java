@@ -13,7 +13,5 @@ public class LEDStrip {
 		for (int i = 0; i < _ledCount; i++) {
 			strip.add(Color.BLACK);
 		}
-		
-		strip.size();
 	}
 }

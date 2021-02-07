@@ -24,8 +24,6 @@ public class Main {
 			clearOnExit = cmdArgs.get("clearonexit").toLowerCase().equals("true");
 		}
 		
-		System.out.println("Should clear on exit? " + clearOnExit);
-		
 		Program program = null;
 		try {
 			program = new Program(clearOnExit);

@@ -7,5 +7,6 @@ public enum ProcedureTypes {
 	FadeToMultiColor, 
 	FadeToUniformColor, 
 	Fill, 
+	FillInterpolated,
 	NoLongerReady 
 }

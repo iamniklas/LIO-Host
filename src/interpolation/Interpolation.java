@@ -55,6 +55,7 @@ public class Interpolation {
 		
 		default: return _value;
 		}
+		
 	}
 	
 	private static float easeInSine(float _value) 		{ return 1.0f - (float) Math.cos((_value * Math.PI) / 2.0f); }

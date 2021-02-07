@@ -3,7 +3,7 @@ import com.github.mbelling.ws281x.Color;
 import led.LEDStripManager;
 import network.ReceiveCallback;
 import network.Server;
-import procedures.FillStripProcedure;
+import procedures.FillStripInterpolatedProcedure;
 
 public class Program implements ReceiveCallback {
 	
@@ -34,10 +34,10 @@ public class Program implements ReceiveCallback {
 				Integer.parseInt(parts[3]));
 		
 		int mod = Integer.parseInt(parts[0]);
-		System.out.println("MOD RECEIVE: " + mod);
-		FillStripProcedure fillStrip = new FillStripProcedure(color, mod);
-		fillStrip.strip = strip;
-		fillStrip.callbacks = strip;
-		strip.procContainer.queueProcedure(fillStrip);
+
+		FillStripInterpolatedProcedure fillStripInterpolated = new FillStripInterpolatedProcedure(color);
+		fillStripInterpolated.strip = strip;
+		fillStripInterpolated.callbacks = strip;
+		strip.procContainer.queueProcedure(fillStripInterpolated);
 	}
 }
