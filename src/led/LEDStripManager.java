@@ -6,14 +6,12 @@ import com.github.mbelling.ws281x.Color;
 import com.github.mbelling.ws281x.LedStripType;
 import com.github.mbelling.ws281x.Ws281xLedStrip;
 
-import procedures.ColorInstantSetProcedure;
-import procedures.FadeInFadeOutProcedure;
-import procedures.FillStripProcedure;
 import procedures.ProcContainer;
 import procedures.ProcedureCalls;
 import procedures.ProcedureFactory;
 import procedures.ProcedureTypes;
 import procedures.BootCompleteProcedure;
+import procedures.HueProcedure;
 
 public class LEDStripManager implements ProcedureCalls {
 	final static int LED_COUNT = 300;
@@ -56,6 +54,11 @@ public class LEDStripManager implements ProcedureCalls {
 		proc.strip = this;
 		proc.callbacks = this;
 		procContainer.queueProcedure(proc);
+		
+		HueProcedure hueProc = new HueProcedure();
+		hueProc.strip = this;
+		hueProc.callbacks = this;
+		procContainer.queueProcedure(hueProc);
 	}
 	
 	public void update() {
