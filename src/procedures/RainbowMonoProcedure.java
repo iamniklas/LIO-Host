@@ -9,7 +9,7 @@ public class RainbowMonoProcedure extends Procedure {
 	int hueCounter = 0;
 	
 	float repetitions = 1;
-	int speed = 5;
+	int speed = 1;
 	
 	public RainbowMonoProcedure() {
 		mColorHSV.s = 1.0f;
@@ -18,7 +18,7 @@ public class RainbowMonoProcedure extends Procedure {
 	
 	@Override
 	void update() {
-		mColorHSV.h = hueCounter > 360 ? 0 : hueCounter + speed;
+		mColorHSV.h = mColorHSV.h > 360 ? 0 : mColorHSV.h + speed;
 		
 		strip.setAllPixels(mColorHSV.ToRGB());
 	}

@@ -1,7 +1,5 @@
 package led;
 
-import java.util.Random;
-
 import com.github.mbelling.ws281x.Color;
 import com.github.mbelling.ws281x.LedStripType;
 import com.github.mbelling.ws281x.Ws281xLedStrip;
@@ -10,8 +8,8 @@ import procedures.ProcContainer;
 import procedures.ProcedureCalls;
 import procedures.ProcedureFactory;
 import procedures.ProcedureTypes;
+import procedures.RainbowMonoProcedure;
 import procedures.BootCompleteProcedure;
-import procedures.RainbowProcedure;
 
 public class LEDStripManager implements ProcedureCalls {
 	public static final int LED_COUNT = 300;
@@ -53,7 +51,7 @@ public class LEDStripManager implements ProcedureCalls {
 		proc.callbacks = this;
 		procContainer.queueProcedure(proc);
 		
-		RainbowProcedure hueProc = new RainbowProcedure();
+		RainbowMonoProcedure hueProc = (RainbowMonoProcedure)ProcedureFactory.instance.getProcedure(ProcedureTypes.RainbowMono, null); 
 		hueProc.strip = this;
 		hueProc.callbacks = this;
 		procContainer.queueProcedure(hueProc);

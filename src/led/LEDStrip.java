@@ -1,6 +1,5 @@
 package led;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import com.github.mbelling.ws281x.Color;
 
@@ -10,6 +9,8 @@ public class LEDStrip {
 	public LEDStrip(int _ledCount) {
 		strip = new ArrayList<Color>(_ledCount);
 		
-		Collections.fill(strip, Color.BLACK);
+		for (int i = 0; i < LEDStripManager.LED_COUNT; i++) {
+			strip.add(Color.BLACK);
+		}
 	}
 }
