@@ -13,21 +13,19 @@ public class ColorHSV {
 		
 		int hueInterval = (int) Math.floor(h / 60.0f);
         float f = (h / 60.0f) - (float) hueInterval;
-        float p = v * (1 - s);
-        int p255 = (int) (p * 255.0f);
-        float q = v * (1 - s * f);
-        int q255 = (int) (q * 255.0f);
-        float t = v * (1 - s * (1 - f));
-        int t255 = (int) (t * 255.0f);
+        
+        int p = (int) ((v * (1 - s)) * 255.0f);
+        int q = (int) ((v * (1 - s * f)) * 255.0f);
+        int t = (int) ((v * (1 - s * (1 - f))) * 255.0f);
         
         Color result = 
         		hueInterval == 0 ||
-        		hueInterval == 6 ? 	new Color(v255, t255, p255) :
-    			hueInterval == 1 ? 	new Color(q255, v255, p255) :
-				hueInterval == 2 ? 	new Color(p255, v255, t255) :
-				hueInterval == 3 ? 	new Color(p255, q255, v255) :
-				hueInterval == 4 ? 	new Color(t255, p255, v255) :
-				hueInterval == 5 ? 	new Color(v255, p255, q255) : 
+        		hueInterval == 6 ? 	new Color(v255, t, p) :
+    			hueInterval == 1 ? 	new Color(q, v255, p) :
+				hueInterval == 2 ? 	new Color(p, v255, t) :
+				hueInterval == 3 ? 	new Color(p, q, v255) :
+				hueInterval == 4 ? 	new Color(t, p, v255) :
+				hueInterval == 5 ? 	new Color(v255, p, q) : 
 								   	new Color(0, 0, 0);
         
         return result;

@@ -10,8 +10,6 @@ public class LEDStrip {
 	public LEDStrip(int _ledCount) {
 		strip = new ArrayList<Color>(_ledCount);
 		
-		for (int i = 0; i < _ledCount; i++) {
-			strip.add(Color.BLACK);
-		}
+		Collections.fill(strip, Color.BLACK);
 	}
 }

@@ -21,6 +21,8 @@ public class ProcedureFactory {
 		case FadeToUniformColor: return new FadeToUniformColorProcedure(_tarColor);
 		case Fill: 				 return new FillStripProcedure(_tarColor, 1);
 		case FillInterpolated: 	 return new FillStripInterpolatedProcedure(_tarColor);
+		case Rainbow:			 return new RainbowProcedure();
+		case RainbowMono:		 return new RainbowMonoProcedure();
 		case NoLongerReady:		 return new NoLongerReadyProcedure();
 		default: 				 return null;
 		}

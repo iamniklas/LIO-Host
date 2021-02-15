@@ -12,7 +12,8 @@ public class BootCompleteProcedure extends Procedure {
 		running = true;
 		double d = Math.abs(Math.sin(Math.toRadians(step)));
 		
-		strip.setAllPixels(new Color(0, (int) (d * 255), 0));
+		strip.setPixel(0, new Color(0, (int) (d * 255), 0));
+		strip.setPixel(299, new Color(0, (int) (d * 255), 0));
 		
 		step+=5;
 		
