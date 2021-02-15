@@ -13,4 +13,8 @@ public class LEDStrip {
 			strip.add(Color.BLACK);
 		}
 	}
+	
+	public Color getColorPyPixel(int _id) {
+		return strip.get(_id);
+	}
 }

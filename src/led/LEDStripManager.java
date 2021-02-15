@@ -8,7 +8,7 @@ import procedures.ProcContainer;
 import procedures.ProcedureCalls;
 import procedures.ProcedureFactory;
 import procedures.ProcedureTypes;
-import procedures.RainbowMonoProcedure;
+import procedures.RainbowProcedure;
 import procedures.BootCompleteProcedure;
 
 public class LEDStripManager implements ProcedureCalls {
@@ -24,7 +24,7 @@ public class LEDStripManager implements ProcedureCalls {
 	
 	private static Ws281xLedStrip strip;
 	
-	LEDStrip stripData = new LEDStrip(LED_COUNT);
+	public LEDStrip stripData = new LEDStrip(LED_COUNT);
 	
 	public ProcContainer procContainer = new ProcContainer(this);
 	
@@ -46,12 +46,12 @@ public class LEDStripManager implements ProcedureCalls {
 		
 		System.out.println("LED Strip \tINIT \tDONE");
 		
-		BootCompleteProcedure proc = (BootCompleteProcedure) ProcedureFactory.instance.getProcedure(ProcedureTypes.BootComplete, Color.BLACK);
+		BootCompleteProcedure proc = (BootCompleteProcedure) ProcedureFactory.getProcedure(ProcedureTypes.BootComplete, Color.BLACK);
 		proc.strip = this;
 		proc.callbacks = this;
 		procContainer.queueProcedure(proc);
 		
-		RainbowMonoProcedure hueProc = (RainbowMonoProcedure)ProcedureFactory.instance.getProcedure(ProcedureTypes.RainbowMono, null); 
+		RainbowProcedure hueProc = (RainbowProcedure) ProcedureFactory.getProcedure(ProcedureTypes.Rainbow, null); 
 		hueProc.strip = this;
 		hueProc.callbacks = this;
 		procContainer.queueProcedure(hueProc);

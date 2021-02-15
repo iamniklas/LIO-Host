@@ -4,15 +4,7 @@ import com.github.mbelling.ws281x.Color;
 
 public class ProcedureFactory {
 	
-	public static ProcedureFactory instance = new ProcedureFactory();
-	
-	public ProcedureFactory() {
-		if (instance == null) {
-			instance = this;
-		}
-	}
-	
-	public Procedure getProcedure(ProcedureTypes _types, Color _tarColor) {
+	public static Procedure getProcedure(ProcedureTypes _types, Color _tarColor) {
 		switch(_types) {
 		case BootComplete: 		 return new BootCompleteProcedure();
 		case ColorInstantSet: 	 return new ColorInstantSetProcedure(_tarColor); 

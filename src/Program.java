@@ -33,7 +33,7 @@ public class Program implements ReceiveCallback {
 				Integer.parseInt(parts[2]), 
 				Integer.parseInt(parts[3]));
 		
-		int mod = Integer.parseInt(parts[0]);
+		//int mod = Integer.parseInt(parts[0]);
 
 		FillStripInterpolatedProcedure fillStripInterpolated = new FillStripInterpolatedProcedure(color);
 		fillStripInterpolated.strip = strip;
