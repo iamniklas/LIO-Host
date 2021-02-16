@@ -2,6 +2,7 @@ package procedures;
 
 import com.github.mbelling.ws281x.Color;
 
+import led.ColorChannel;
 import led.ColorHSV;
 import led.LEDStripManager;
 
@@ -26,7 +27,7 @@ public class RainbowProcedure extends Procedure {
 		
 		for (int i = 0; i < LEDStripManager.LED_COUNT; i++) {
 			mColorHSV.h = ((int) (i * (repetitions * 1.2f)) + hueCounter) % 360;
-			Color cached = mColorHSV.ToRGB();
+			Color cached = mColorHSV.ToRGB().filter(ColorChannel.Red).filter(ColorChannel.Green).toSystemColor();
 			Color result = cached;
 			strip.setPixel(i, result);
 		}

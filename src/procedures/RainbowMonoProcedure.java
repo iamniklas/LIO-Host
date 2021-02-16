@@ -20,6 +20,6 @@ public class RainbowMonoProcedure extends Procedure {
 	void update() {
 		mColorHSV.h = mColorHSV.h > 360 ? 0 : mColorHSV.h + speed;
 		
-		strip.setAllPixels(mColorHSV.ToRGB());
+		strip.setAllPixels(mColorHSV.ToRGB().toSystemColor());
 	}
 }
