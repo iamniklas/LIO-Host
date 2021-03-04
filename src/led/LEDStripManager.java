@@ -46,7 +46,7 @@ public class LEDStripManager implements ProcedureCalls {
 		
 		System.out.println("LED Strip \tINIT \tDONE");
 		
-		BootCompleteProcedure proc = (BootCompleteProcedure) ProcedureFactory.getProcedure(ProcedureTypes.BootComplete, Color.BLACK);
+		BootCompleteProcedure proc = (BootCompleteProcedure) ProcedureFactory.getProcedure(ProcedureTypes.BootComplete, null);
 		proc.strip = this;
 		proc.callbacks = this;
 		procContainer.queueProcedure(proc);

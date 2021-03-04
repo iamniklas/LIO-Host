@@ -1,9 +1,11 @@
 package procedures;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import com.github.mbelling.ws281x.Color;
 
+import led.ProcedureBundleTypes;
 import led.LEDStripManager;
 
 //Fade every pixel from its current state to a given uniform color
@@ -13,8 +15,10 @@ public class FadeToUniformColorProcedure extends Procedure {
 	
 	Boolean[] mFinishedPixels = new Boolean[LEDStripManager.LED_COUNT];
 	
-	public FadeToUniformColorProcedure(Color _tarColor) {
-		mTargetColor = _tarColor;
+	public FadeToUniformColorProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
+		if (_bundle.containsKey(ProcedureBundleTypes.COLOR_MAIN)) {
+			mTargetColor = (Color) _bundle.get(ProcedureBundleTypes.COLOR_MAIN);
+		}
 	}
 
 	@Override

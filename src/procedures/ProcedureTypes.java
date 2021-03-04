@@ -10,5 +10,6 @@ public enum ProcedureTypes {
 	FillInterpolated,
 	Rainbow,
 	RainbowMono,
+	SimpleBPM,
 	NoLongerReady 
 }

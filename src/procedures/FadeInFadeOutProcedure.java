@@ -1,6 +1,10 @@
 package procedures;
 
+import java.util.Map;
+
 import com.github.mbelling.ws281x.Color;
+
+import led.ProcedureBundleTypes;
 
 //Fade one given color in, then fade out to black
 public class FadeInFadeOutProcedure extends Procedure {
@@ -8,10 +12,13 @@ public class FadeInFadeOutProcedure extends Procedure {
 	private float[] mColorPartModifier = {1.0f, 1.0f, 1.0f};
 	private int totalSteps = 180;
 	
-	public FadeInFadeOutProcedure(Color _tarColor) {
-		mColorPartModifier[0] = (float) _tarColor.getRed() / 255.0f;
-		mColorPartModifier[1] = (float) _tarColor.getGreen() / 255.0f;
-		mColorPartModifier[2] = (float) _tarColor.getBlue() / 255.0f;
+	public FadeInFadeOutProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
+		if (_bundle.containsKey(ProcedureBundleTypes.COLOR_MAIN)) {
+			Color targetColor = (Color) _bundle.get(ProcedureBundleTypes.COLOR_MAIN);
+			mColorPartModifier[0] = (float) targetColor.getRed() / 255.0f;
+			mColorPartModifier[1] = (float) targetColor.getGreen() / 255.0f;
+			mColorPartModifier[2] = (float) targetColor.getBlue() / 255.0f;			
+		}
 	}
 
 	@Override

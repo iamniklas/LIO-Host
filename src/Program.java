@@ -1,5 +1,9 @@
+import java.util.HashMap;
+import java.util.Map;
+
 import com.github.mbelling.ws281x.Color;
 
+import led.ProcedureBundleTypes;
 import led.LEDStripManager;
 import network.ReceiveCallback;
 import network.Server;
@@ -33,9 +37,13 @@ public class Program implements ReceiveCallback {
 				Integer.parseInt(parts[2]), 
 				Integer.parseInt(parts[3]));
 		
-		//int mod = Integer.parseInt(parts[0]);
+		int mod = Integer.parseInt(parts[0]);
 
-		FillStripInterpolatedProcedure fillStripInterpolated = new FillStripInterpolatedProcedure(color);
+		Map<ProcedureBundleTypes, Object> bundle = new HashMap<ProcedureBundleTypes, Object>();
+		bundle.put(ProcedureBundleTypes.COLOR_MAIN, color);
+		bundle.put(ProcedureBundleTypes.MODULO, mod);
+		
+		FillStripInterpolatedProcedure fillStripInterpolated = new FillStripInterpolatedProcedure(bundle);
 		fillStripInterpolated.strip = strip;
 		fillStripInterpolated.callbacks = strip;
 		strip.procContainer.queueProcedure(fillStripInterpolated);

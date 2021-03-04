@@ -1,11 +1,19 @@
 package procedures;
 
+import java.util.Map;
+
 import com.github.mbelling.ws281x.Color;
+
+import led.ProcedureBundleTypes;
 
 //A signal animation for the user that the strip is ready for use
 public class BootCompleteProcedure extends Procedure {
 
 	int stepsTotal = 720;
+	
+	public BootCompleteProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
+		
+	}
 	
 	@Override
 	public void update() {

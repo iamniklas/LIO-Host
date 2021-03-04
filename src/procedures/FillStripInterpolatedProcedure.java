@@ -1,9 +1,12 @@
 package procedures;
 
+import java.util.Map;
+
 import com.github.mbelling.ws281x.Color;
 
 import interpolation.Interpolation;
 import interpolation.InterpolationType;
+import led.ProcedureBundleTypes;
 import led.LEDStripManager;
 
 public class FillStripInterpolatedProcedure extends Procedure {
@@ -14,8 +17,10 @@ public class FillStripInterpolatedProcedure extends Procedure {
 	private Color fillColor = Color.BLACK;
 	InterpolationType interpolationType = InterpolationType.EaseOutBounce;
 
-	public FillStripInterpolatedProcedure(Color _color) {
-		fillColor = _color;
+	public FillStripInterpolatedProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
+		if (_bundle.containsKey(ProcedureBundleTypes.COLOR_MAIN)) {
+			fillColor = (Color) _bundle.get(ProcedureBundleTypes.COLOR_MAIN);
+		}
 	}
 	
 	@Override

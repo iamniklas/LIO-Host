@@ -1,19 +1,21 @@
 package procedures;
 
+import java.util.Map;
+
+import led.ProcedureBundleTypes;
 import led.ColorHSV;
 
 public class RainbowMonoProcedure extends Procedure {
 
-	ColorHSV mColorHSV = new ColorHSV();
+	ColorHSV mColorHSV = new ColorHSV(0, 1.0f, 1.0f);
 	
 	int hueCounter = 0;
 	
 	float repetitions = 1;
 	int speed = 1;
 	
-	public RainbowMonoProcedure() {
-		mColorHSV.s = 1.0f;
-		mColorHSV.v = 1.0f;
+	public RainbowMonoProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
+		
 	}
 	
 	@Override

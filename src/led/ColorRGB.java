@@ -56,14 +56,28 @@ public class ColorRGB {
 		}
 	}
 	
+	//Cuts a channel from the lower side - if the channel value is higher than the filter it will be set to 0
 	public ColorRGB cutLow(ColorChannel _channel, int _filter) {
-		throw new UnsupportedOperationException("Cut low is not operational at the moment");
-		//return new ColorRGB(0, 0, 0);
+		_filter = Math.max(Math.min(_filter, 255), 0);
+		switch (_channel) {
+			case Red: return new ColorRGB(cutLow(r, _filter), g, b, a);
+			case Green: return new ColorRGB(r, cutLow(g, _filter), b, a);
+			case Blue: return new ColorRGB(r, g, cutLow(b, _filter), a);
+			case Alpha: return new ColorRGB(r, g, b, cutLow(a, _filter));
+			default: return this;
+		}
 	}
 	
+	//Cuts a channel from the higher side - if the channel value is lower than the filter it will be set to 0
 	public ColorRGB cutHigh(ColorChannel _channel, int _filter) {
-		throw new UnsupportedOperationException("Cut high is not operational at the moment");
-		//return new ColorRGB(0, 0, 0);
+		_filter = Math.max(Math.min(_filter, 255), 0);
+		switch (_channel) {
+			case Red: return new ColorRGB(cutHigh(r, _filter), g, b, a);
+			case Green: return new ColorRGB(r, cutHigh(g, _filter), b, a);
+			case Blue: return new ColorRGB(r, g, cutHigh(b, _filter), a);
+			case Alpha: return new ColorRGB(r, g, b, cutHigh(a, _filter));
+			default: return this;
+		}
 	}
 	
 	public ColorHSV toHSV() {
@@ -72,5 +86,28 @@ public class ColorRGB {
 	
 	public Color toSystemColor() {
 		return new Color(r, g, b);
+	}
+	
+	private int cutLow(int _value, int _filter) {
+		if (_value >= _filter) {
+			return 0;
+		}
+		else {
+			return _value;
+		}
+	}
+	
+	private int cutHigh(int _value, int _filter) {
+		if (_value <= _filter) {
+			return 0;
+		}
+		else {
+			return _value;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return new StringBuffer().append(b).append(" - ").toString();
 	}
 }

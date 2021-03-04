@@ -1,6 +1,10 @@
 package procedures;
 
+import java.util.Map;
+
 import com.github.mbelling.ws281x.Color;
+
+import led.ProcedureBundleTypes;
 
 //Animation to fill the strip from a given direction (left, right, center, bounds) with a given color 
 public class FillStripProcedure extends Procedure {
@@ -9,9 +13,11 @@ public class FillStripProcedure extends Procedure {
 	Color fillColor = Color.BLACK;
 	public int modulo = 1;
 	
-	public FillStripProcedure(Color _fillColor, int _modulo) {
-		fillColor = _fillColor;
-		modulo = _modulo;
+	public FillStripProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
+		if (_bundle.containsKey(ProcedureBundleTypes.COLOR_MAIN)) {
+			fillColor = (Color) _bundle.get(ProcedureBundleTypes.COLOR_MAIN);
+			modulo = (int) _bundle.get(ProcedureBundleTypes.MODULO);
+		}
 	}
 	
 	@Override

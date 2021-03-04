@@ -1,21 +1,24 @@
 package procedures;
 
-import com.github.mbelling.ws281x.Color;
+import java.util.Map;
+
+import led.ProcedureBundleTypes;
 
 public class ProcedureFactory {
 	
-	public static Procedure getProcedure(ProcedureTypes _types, Color _tarColor) {
+	public static Procedure getProcedure(ProcedureTypes _types, Map<ProcedureBundleTypes, Object> _bundle) {
 		switch(_types) {
-		case BootComplete: 		 return new BootCompleteProcedure();
-		case ColorInstantSet: 	 return new ColorInstantSetProcedure(_tarColor); 
-		case FadeInFadeOut: 	 return new FadeInFadeOutProcedure(_tarColor);
-		case FadeToMultiColor: 	 return new FadeToMultiColorProcedure(_tarColor);
-		case FadeToUniformColor: return new FadeToUniformColorProcedure(_tarColor);
-		case Fill: 				 return new FillStripProcedure(_tarColor, 1);
-		case FillInterpolated: 	 return new FillStripInterpolatedProcedure(_tarColor);
-		case Rainbow:			 return new RainbowProcedure();
-		case RainbowMono:		 return new RainbowMonoProcedure();
-		case NoLongerReady:		 return new NoLongerReadyProcedure();
+		case BootComplete: 		 return new BootCompleteProcedure(_bundle);
+		case ColorInstantSet: 	 return new ColorInstantSetProcedure(_bundle); 
+		case FadeInFadeOut: 	 return new FadeInFadeOutProcedure(_bundle);
+		case FadeToMultiColor: 	 return new FadeToMultiColorProcedure(_bundle);
+		case FadeToUniformColor: return new FadeToUniformColorProcedure(_bundle);
+		case Fill: 				 return new FillStripProcedure(_bundle);
+		case FillInterpolated: 	 return new FillStripInterpolatedProcedure(_bundle);
+		case Rainbow:			 return new RainbowProcedure(_bundle);
+		case RainbowMono:		 return new RainbowMonoProcedure(_bundle);
+		case NoLongerReady:		 return new NoLongerReadyProcedure(_bundle);
+		case SimpleBPM:			 return new SimpleBPMProcedure(_bundle);
 		default: 				 return null;
 		}
 	}
