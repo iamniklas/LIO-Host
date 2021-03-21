@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import com.github.mbelling.ws281x.Color;
 
 public class LEDStrip {
-	ArrayList<Color> strip = new ArrayList<Color>(300);
+	ArrayList<Color> mStrip = new ArrayList<Color>(300);
 	
 	public LEDStrip(int _ledCount) {
-		strip = new ArrayList<Color>(_ledCount);
+		mStrip = new ArrayList<Color>(_ledCount);
 		
 		for (int i = 0; i < LEDStripManager.LED_COUNT; i++) {
-			strip.add(Color.BLACK);
+			mStrip.add(Color.BLACK);
 		}
 	}
 	
 	public Color getColorPyPixel(int _id) {
-		return strip.get(_id);
+		return mStrip.get(_id);
 	}
 }

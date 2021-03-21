@@ -1,42 +1,43 @@
 package procedures;
 
-import java.util.Map;
-
 import com.github.mbelling.ws281x.Color;
 
 import interpolation.Interpolation;
 import interpolation.InterpolationType;
-import led.ProcedureBundleTypes;
+import led.ProcedureBundleFields;
+import led.LEDDataBundle;
 import led.LEDStripManager;
 
 public class FillStripInterpolatedProcedure extends Procedure {
 
-	private int litLEDs = 0;
-	private float percentage = 0.0f;
+	private int mLitLEDs = 0;
+	private float mPpercentage = 0.0f;
 	
-	private Color fillColor = Color.BLACK;
-	InterpolationType interpolationType = InterpolationType.EaseOutBounce;
+	private Color mFillColor = Color.BLACK;
+	InterpolationType mInterpolationType = InterpolationType.EaseOutBounce;
 
-	public FillStripInterpolatedProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
-		if (_bundle.containsKey(ProcedureBundleTypes.COLOR_MAIN)) {
-			fillColor = (Color) _bundle.get(ProcedureBundleTypes.COLOR_MAIN);
+	public FillStripInterpolatedProcedure(LEDDataBundle _bundle) {
+		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
+			  (ProcedureCalls)_bundle.get(ProcedureBundleFields.CALLBACK));
+		if (_bundle.hasKey(ProcedureBundleFields.COLOR_PRIMARY)) {
+			mFillColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
 		}
 	}
 	
 	@Override
 	void update() {
-		percentage = step / (float)LEDStripManager.LED_COUNT;
-		step++;
+		mPpercentage = mStep / (float)LEDStripManager.LED_COUNT;
+		mStep++;
 		
-		litLEDs = Math.min(300, (int) (Interpolation.getInterpolationValue(percentage, interpolationType) * 300.0f));
+		mLitLEDs = Math.min(300, (int) (Interpolation.getInterpolationValue(mPpercentage, mInterpolationType) * 300.0f));
 		
-		System.out.println(litLEDs);
+		System.out.println(mLitLEDs);
 		
-		strip.setAllPixels(Color.BLACK);
-		strip.setArea(0, litLEDs, fillColor);
+		mStrip.setAllPixels(Color.BLACK);
+		mStrip.setArea(0, mLitLEDs, mFillColor);
 		
-		if (step > LEDStripManager.LED_COUNT) {
-			strip.procContainer.removeCurrentProcedure();
+		if (mStep > LEDStripManager.LED_COUNT) {
+			mStrip.mProcContainer.removeCurrentProcedure();
 			finishProcedure();
 		}
 	}

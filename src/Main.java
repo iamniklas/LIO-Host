@@ -3,16 +3,16 @@ import java.util.List;
 
 public class Main {
 
-	static List<String> arguments = new ArrayList<String>();
+	static List<String> mArguments = new ArrayList<String>();
 	
 	public static void main(String[] args) throws Exception {
 		for (int i = 0; i < args.length; i++) {
-			arguments.add(args[i]);
+			mArguments.add(args[i]);
 		}
 		
 		boolean clearOnExit = false;
 		
-		if (arguments.contains("clearonexit")) {
+		if (mArguments.contains("clearonexit")) {
 			clearOnExit = true;
 		}
 		

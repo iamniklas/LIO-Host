@@ -1,6 +1,7 @@
 package interpolation;
 
 public enum InterpolationType {
+	Linear,
 	EaseInSine, 	EaseOutSine, 	EaseInOutSine,
 	EaseInQuad, 	EaseOutQuad, 	EaseInOutQuad,
 	EaseInCubic, 	EaseOutCubic, 	EaseInOutCubic,

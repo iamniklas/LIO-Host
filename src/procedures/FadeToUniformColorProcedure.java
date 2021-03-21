@@ -1,45 +1,47 @@
 package procedures;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import com.github.mbelling.ws281x.Color;
-
-import led.ProcedureBundleTypes;
+import led.ProcedureBundleFields;
+import led.ColorRGB;
+import led.ColorRGBA;
+import led.LEDDataBundle;
 import led.LEDStripManager;
 
-//Fade every pixel from its current state to a given uniform color
+//Fade every pixel from a base color to a target color
 public class FadeToUniformColorProcedure extends Procedure {
 	
-	Color mTargetColor;
+	ColorRGB mBaseColor;
+	ColorRGB mTargetColor;
+	float mDuration = 0.0f;
 	
-	Boolean[] mFinishedPixels = new Boolean[LEDStripManager.LED_COUNT];
+	int mCounter = 0;
+	int mSteps = 0;
 	
-	public FadeToUniformColorProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
-		if (_bundle.containsKey(ProcedureBundleTypes.COLOR_MAIN)) {
-			mTargetColor = (Color) _bundle.get(ProcedureBundleTypes.COLOR_MAIN);
-		}
+	float mAlphaStep = 0.0f;
+	private float mAlphaAddValue = 0.0f;
+	
+	public FadeToUniformColorProcedure(LEDDataBundle _bundle) {
+		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
+			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		
+		mTargetColor = (ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
+		mBaseColor = (ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_SECONDARY);
+		mDuration = (float) _bundle.get(ProcedureBundleFields.DURATION);
+		
+		mSteps = (int) Math.ceil(mDuration / (mStrip.getFrametime() / 1000.0f));
+		
+		mAlphaAddValue = 1 / (float)mSteps;
 	}
 
 	@Override
 	void update() {
-		//TODO Fix
-		for (int i = 0; i < LEDStripManager.LED_COUNT; i++) {
-			Color currentColor = strip.stripData.getColorPyPixel(i);
-			
-			Color outputPixel = new Color(currentColor.getRed() + (mTargetColor.getRed() > currentColor.getRed() ? 1 : -1) ,
-					currentColor.getGreen() + (mTargetColor.getGreen() > currentColor.getGreen() ? 1 : -1), 
-					currentColor.getBlue() + (mTargetColor.getBlue() > currentColor.getBlue() ? 1 : -1));
-			
-			if (outputPixel == mTargetColor) {
-				mFinishedPixels[i] = true;
-			}
-			
-			strip.setPixel(i, outputPixel);
-		}
+		mCounter++;
+		mAlphaStep += mAlphaAddValue;
 		
-		if (!Arrays.asList(mFinishedPixels).contains(false)) {
-			strip.procContainer.removeCurrentProcedure();
+		ColorRGBA outputColor = new ColorRGBA(mBaseColor.r, mBaseColor.g, mBaseColor.b, (int)(mAlphaStep * 255));
+		
+		mStrip.setAllPixels(outputColor.toRGB(mTargetColor).toSystemColor());
+		
+		if (mCounter > mSteps) {
 			finishProcedure();
 		}
 	}

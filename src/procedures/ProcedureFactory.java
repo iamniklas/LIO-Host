@@ -1,12 +1,10 @@
 package procedures;
 
-import java.util.Map;
-
-import led.ProcedureBundleTypes;
+import led.LEDDataBundle;
 
 public class ProcedureFactory {
 	
-	public static Procedure getProcedure(ProcedureTypes _types, Map<ProcedureBundleTypes, Object> _bundle) {
+	public static Procedure getProcedure(ProcedureTypes _types, LEDDataBundle _bundle) {
 		switch(_types) {
 		case BootComplete: 		 return new BootCompleteProcedure(_bundle);
 		case ColorInstantSet: 	 return new ColorInstantSetProcedure(_bundle); 

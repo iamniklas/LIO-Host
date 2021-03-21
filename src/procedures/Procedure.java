@@ -3,15 +3,20 @@ package procedures;
 import led.LEDStripManager;
 
 public abstract class Procedure {
-	boolean running = false;
-	public LEDStripManager strip;
-	public ProcedureCalls callbacks;
+	public LEDStripManager mStrip;
+	public ProcedureCalls mCallbacks;
 	
-	int step = 0;
+	int mStep = 0;
+	
+	public Procedure(LEDStripManager _strip, ProcedureCalls _callbacks) {
+		mStrip = _strip;
+		mCallbacks = _callbacks;
+	}
 	
 	abstract void update();
 	
 	protected void finishProcedure() {
-		callbacks.onProcedureFinish();
+		mStrip.mProcContainer.removeCurrentProcedure();
+		mCallbacks.onProcedureFinish();
 	}
 }

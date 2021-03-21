@@ -1,27 +1,28 @@
 package procedures;
 
-import java.util.Map;
-
-import led.ProcedureBundleTypes;
 import led.ColorHSV;
+import led.LEDDataBundle;
+import led.LEDStripManager;
+import led.ProcedureBundleFields;
 
 public class RainbowMonoProcedure extends Procedure {
 
 	ColorHSV mColorHSV = new ColorHSV(0, 1.0f, 1.0f);
 	
-	int hueCounter = 0;
+	int mHueCounter = 0;
 	
-	float repetitions = 1;
-	int speed = 1;
+	float mRepetitions = 1;
+	int mSpeed = 1;
 	
-	public RainbowMonoProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
-		
+	public RainbowMonoProcedure(LEDDataBundle _bundle) {
+		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
+			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
 	}
 	
 	@Override
 	void update() {
-		mColorHSV.h = mColorHSV.h > 360 ? 0 : mColorHSV.h + speed;
+		mColorHSV.h = mColorHSV.h > 360 ? 0 : mColorHSV.h + mSpeed;
 		
-		strip.setAllPixels(mColorHSV.ToRGB().toSystemColor());
+		mStrip.setAllPixels(mColorHSV.ToRGB().toSystemColor());
 	}
 }

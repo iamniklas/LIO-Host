@@ -4,37 +4,37 @@ import java.net.Socket;
 
 public class ClientService extends Thread implements ReceiveCallback {
 	
-	static int nextId = 0;
-	public int id = 0;
+	static int mNextId = 0;
+	public int mId = 0;
 	
-	Server server;
-	Socket socket;
-	Sender sender;
-	Receiver receiver;
+	Server mServer;
+	Socket mSocket;
+	Sender mSender;
+	Receiver mReceiver;
 	
 	public ClientService(Server _server, Socket _socket) {
-		id = nextId;
-		nextId++;
+		mId = mNextId;
+		mNextId++;
 		
-		server = _server;
-		socket = _socket;
+		mServer = _server;
+		mSocket = _socket;
 		
 		System.out.println("New client connected");
 		
 		try {
-			sender = new Sender(socket.getOutputStream());
-			receiver = new Receiver(socket, socket.getInputStream(), this);
+			mSender = new Sender(mSocket.getOutputStream());
+			mReceiver = new Receiver(mSocket, mSocket.getInputStream(), this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		receiver.start();
+		mReceiver.start();
 	}
 
 	@Override
 	public void onReceiveMessage(String _message) {
 		System.out.println(_message);
-		server.receiveMessage(_message);
+		mServer.receiveMessage(_message);
 		//Server.makeRPCCallToAll(_message);
 	}
 }

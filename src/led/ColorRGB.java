@@ -4,17 +4,18 @@ import com.github.mbelling.ws281x.Color;
 
 public class ColorRGB {
 	
-	int r = 255;
-	int g = 255;
-	int b = 255;
-	int a = 255;
+	public int r = 255;
+	public int g = 255;
+	public int b = 255;
 	
-	public ColorRGB(int _r, int _g, int _b, int _a) {
-		r = _r;
-		g = _g;
-		b = _b;
-		a = _a;
-	}
+	public static final ColorRGB black = new ColorRGB(0, 0, 0);
+	public static final ColorRGB white = new ColorRGB(255, 255, 255);
+	public static final ColorRGB red = new ColorRGB(255, 0, 0);
+	public static final ColorRGB green = new ColorRGB(0, 255, 0);
+	public static final ColorRGB blue = new ColorRGB(0, 0, 255);
+	public static final ColorRGB orange = new ColorRGB(255, 255, 0);
+	public static final ColorRGB magenta = new ColorRGB(255, 0, 255);
+	public static final ColorRGB torquoise = new ColorRGB(0, 255, 255);
 	
 	public ColorRGB(int _r, int _g, int _b) {
 		r = _r;
@@ -26,16 +27,14 @@ public class ColorRGB {
 		r = _color.r;
 		g = _color.g;
 		b = _color.b;
-		a = _color.a;
 	}
 	
 	public ColorRGB filter(ColorChannel _channel) {
 		switch (_channel) {
-			case Red: return new ColorRGB(0, g, b, a);
-			case Green: return new ColorRGB(r, 0, b, a);
-			case Blue: return new ColorRGB(r, g, 0, a);
-			case Alpha: return new ColorRGB(r, g, b, 0);
-			default: return new ColorRGB(0, 0, 0, a);
+			case Red: return new ColorRGB(0, g, b);
+			case Green: return new ColorRGB(r, 0, b);
+			case Blue: return new ColorRGB(r, g, 0);
+			default: return new ColorRGB(0, 0, 0);
 		}
 	}
 	
@@ -50,9 +49,8 @@ public class ColorRGB {
 			case Blue:
 				b = _value;
 				break;
-			case Alpha:
-				a = _value;
-				break;
+		default:
+			break;
 		}
 	}
 	
@@ -60,10 +58,9 @@ public class ColorRGB {
 	public ColorRGB cutLow(ColorChannel _channel, int _filter) {
 		_filter = Math.max(Math.min(_filter, 255), 0);
 		switch (_channel) {
-			case Red: return new ColorRGB(cutLow(r, _filter), g, b, a);
-			case Green: return new ColorRGB(r, cutLow(g, _filter), b, a);
-			case Blue: return new ColorRGB(r, g, cutLow(b, _filter), a);
-			case Alpha: return new ColorRGB(r, g, b, cutLow(a, _filter));
+			case Red: return new ColorRGB(cutLow(r, _filter), g, b);
+			case Green: return new ColorRGB(r, cutLow(g, _filter), b);
+			case Blue: return new ColorRGB(r, g, cutLow(b, _filter));
 			default: return this;
 		}
 	}
@@ -72,12 +69,15 @@ public class ColorRGB {
 	public ColorRGB cutHigh(ColorChannel _channel, int _filter) {
 		_filter = Math.max(Math.min(_filter, 255), 0);
 		switch (_channel) {
-			case Red: return new ColorRGB(cutHigh(r, _filter), g, b, a);
-			case Green: return new ColorRGB(r, cutHigh(g, _filter), b, a);
-			case Blue: return new ColorRGB(r, g, cutHigh(b, _filter), a);
-			case Alpha: return new ColorRGB(r, g, b, cutHigh(a, _filter));
+			case Red: return new ColorRGB(cutHigh(r, _filter), g, b);
+			case Green: return new ColorRGB(r, cutHigh(g, _filter), b);
+			case Blue: return new ColorRGB(r, g, cutHigh(b, _filter));
 			default: return this;
 		}
+	}
+	
+	public ColorRGBA toRGBA(int _alpha) {
+		return new ColorRGBA(r, g, b, _alpha);
 	}
 	
 	public ColorHSV toHSV() {
@@ -108,6 +108,6 @@ public class ColorRGB {
 	
 	@Override
 	public String toString() {
-		return new StringBuffer().append(b).append(" - ").toString();
+		return String.format("R%d G%d B%d", r, g, b);
 	}
 }

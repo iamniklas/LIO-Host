@@ -10,6 +10,7 @@ import procedures.ProcedureFactory;
 import procedures.ProcedureTypes;
 import procedures.RainbowProcedure;
 import procedures.BootCompleteProcedure;
+import procedures.FadeToUniformColorProcedure;
 
 public class LEDStripManager implements ProcedureCalls {
 	public static final int LED_COUNT = 300;
@@ -20,20 +21,22 @@ public class LEDStripManager implements ProcedureCalls {
 	static final int PWM_CHANNEL = 0;
 	static final boolean INVERT = false;
 	static final LedStripType LED_STRIP_TYPE = LedStripType.WS2811_STRIP_GRB;
-	boolean clearOnExit = true;
+	private boolean mClearOnExit = true;
 	
-	private static Ws281xLedStrip strip;
+	private static Ws281xLedStrip mStrip;
 	
-	public LEDStrip stripData = new LEDStrip(LED_COUNT);
+	public LEDStrip mStripData = new LEDStrip(LED_COUNT);
 	
-	public ProcContainer procContainer = new ProcContainer(this);
+	public ProcContainer mProcContainer = new ProcContainer(this);
+	
+	private int mFrametime = 16;
 	
 	public LEDStripManager(boolean _clearOnExit) throws InterruptedException {
 		System.out.println("LED Strip \tINIT \tSTART");
 		
-		clearOnExit = _clearOnExit;
+		mClearOnExit = _clearOnExit;
 		
-		strip = new Ws281xLedStrip(
+		mStrip = new Ws281xLedStrip(
 						LED_COUNT, 
 						GPIO_PIN, 
 						FREQ, 
@@ -42,34 +45,46 @@ public class LEDStripManager implements ProcedureCalls {
 						PWM_CHANNEL, 
 						INVERT,
 						LED_STRIP_TYPE, 
-						clearOnExit);
+						mClearOnExit);
 		
 		System.out.println("LED Strip \tINIT \tDONE");
 		
-		BootCompleteProcedure proc = (BootCompleteProcedure) ProcedureFactory.getProcedure(ProcedureTypes.BootComplete, null);
-		proc.strip = this;
-		proc.callbacks = this;
-		procContainer.queueProcedure(proc);
+		LEDDataBundle bundle = new LEDDataBundle();
+		bundle.set(ProcedureBundleFields.STRIP, this);
+		bundle.set(ProcedureBundleFields.CALLBACK, this);
+		bundle.set(ProcedureBundleFields.SPEED, 3.0f);
+		bundle.set(ProcedureBundleFields.REPETITIONS, 1.0f);
 		
-		RainbowProcedure hueProc = (RainbowProcedure) ProcedureFactory.getProcedure(ProcedureTypes.Rainbow, null); 
-		hueProc.strip = this;
-		hueProc.callbacks = this;
-		procContainer.queueProcedure(hueProc);
+		BootCompleteProcedure proc = (BootCompleteProcedure) ProcedureFactory.getProcedure(ProcedureTypes.BootComplete, bundle);
+		mProcContainer.queueProcedure(proc);
+		
+		bundle.set(ProcedureBundleFields.COLOR_PRIMARY, ColorRGB.black);
+		bundle.set(ProcedureBundleFields.COLOR_SECONDARY, ColorRGB.torquoise);
+		bundle.set(ProcedureBundleFields.DURATION, 10.0f);
+		
+		FadeToUniformColorProcedure uniformProc = (FadeToUniformColorProcedure) ProcedureFactory.getProcedure(ProcedureTypes.FadeToUniformColor, bundle);
+		mProcContainer.queueProcedure(uniformProc);
+		
+		RainbowProcedure hueProc = (RainbowProcedure) ProcedureFactory.getProcedure(ProcedureTypes.Rainbow, bundle); 
+		mProcContainer.queueProcedure(hueProc);
 	}
 	
 	public void update() {
-		procContainer.update();
+		mProcContainer.update();
 		
-		for (int i = 0; i < stripData.strip.size(); i++) {
-			strip.setPixel(i, stripData.strip.get(i));
+		for (int i = 0; i < mStripData.mStrip.size(); i++) {
+			mStrip.setPixel(i, mStripData.mStrip.get(i));
 		}
-		strip.render();
+		mStrip.render();
 		try {
-			Thread.sleep(16);
+			Thread.sleep(mFrametime);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public int getFrametime() {
+		return mFrametime;
 	}
 	
 	/**
@@ -77,7 +92,7 @@ public class LEDStripManager implements ProcedureCalls {
 	 * @param _color The color to set the pixel
 	 */
 	public void setPixel(int _pxl, Color _color) {
-		stripData.strip.set(_pxl, _color);
+		mStripData.mStrip.set(_pxl, _color);
 	}
 	
 	/**
@@ -87,7 +102,7 @@ public class LEDStripManager implements ProcedureCalls {
 	 */
 	public void setArea(int _startPxl, int _endPxl, Color _color) {
 		for (int i = _startPxl; i < _endPxl; i++) {
-			stripData.strip.set(i, _color);
+			mStripData.mStrip.set(i, _color);
 		}
 	}
 	
@@ -96,7 +111,7 @@ public class LEDStripManager implements ProcedureCalls {
 	 */
 	public void setAllPixels(Color _color) {
 		for (int i = 0; i < LED_COUNT; i++) {
-			stripData.strip.set(i, _color);
+			mStripData.mStrip.set(i, _color);
 		}
 	}
 

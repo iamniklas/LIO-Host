@@ -1,38 +1,35 @@
 package procedures;
 
-import java.util.Map;
-
 import com.github.mbelling.ws281x.Color;
 
-import led.ProcedureBundleTypes;
+import led.LEDDataBundle;
+import led.LEDStripManager;
+import led.ProcedureBundleFields;
 
 //Animation to fill the strip from a given direction (left, right, center, bounds) with a given color 
 public class FillStripProcedure extends Procedure {
-
-	int totalSteps = 300; //matches strip length
-	Color fillColor = Color.BLACK;
-	public int modulo = 1;
+	private Color mFillColor = Color.BLACK;
+	public int mModulo = 1;
 	
-	public FillStripProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
-		if (_bundle.containsKey(ProcedureBundleTypes.COLOR_MAIN)) {
-			fillColor = (Color) _bundle.get(ProcedureBundleTypes.COLOR_MAIN);
-			modulo = (int) _bundle.get(ProcedureBundleTypes.MODULO);
-		}
+	public FillStripProcedure(LEDDataBundle _bundle) {
+		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
+			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		mFillColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
+		mModulo = (int) _bundle.get(ProcedureBundleFields.MODULO);
 	}
 	
 	@Override
 	void update() {
 		for (int i = 0; i < 5; i++) {
-			if ((step+i) % modulo == 0) {
-				strip.setPixel(step + i, fillColor);		
+			if ((mStep+i) % mModulo == 0) {
+				mStrip.setPixel(mStep + i, mFillColor);		
 			}
 		}
 		
-		step+=5;
+		mStep+=5;
 		
-		if (step >= totalSteps) {
+		if (mStep >= LEDStripManager.LED_COUNT) {
 			//strip.setAllPixels(Color.BLACK);
-			strip.procContainer.removeCurrentProcedure();
 			finishProcedure();
 		}
 	}

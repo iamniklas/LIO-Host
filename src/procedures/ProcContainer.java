@@ -5,29 +5,29 @@ import java.util.ArrayList;
 import led.LEDStripManager;
 
 public class ProcContainer {
-	LEDStripManager ledStrip;
-	ArrayList<Procedure> procedure = new ArrayList<Procedure>();
+	LEDStripManager mLedStrip;
+	ArrayList<Procedure> mProcedure = new ArrayList<Procedure>();
 	
 	public ProcContainer(LEDStripManager _ledStripMng) {
-		ledStrip = _ledStripMng;
+		mLedStrip = _ledStripMng;
 	}
 	
 	public void queueProcedure(Procedure _proc) {
-		procedure.add(_proc);
-		_proc.callbacks.onProcedureQueued();
+		mProcedure.add(_proc);
+		_proc.mCallbacks.onProcedureQueued();
 	}
 	
 	public void removeCurrentProcedure() {
-		procedure.remove(0);
+		mProcedure.remove(0);
 		
-		if (procedure.size() > 0) {
-			procedure.get(0).callbacks.onProcedureStart();
+		if (mProcedure.size() > 0) {
+			mProcedure.get(0).mCallbacks.onProcedureStart();
 		}
 	}
 	
 	public void update() {
-		if(procedure.size() < 1) return;
+		if(mProcedure.size() < 1) return;
 		
-		procedure.get(0).update();
+		mProcedure.get(0).update();
 	}
 }

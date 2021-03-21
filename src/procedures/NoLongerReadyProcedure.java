@@ -1,43 +1,39 @@
 package procedures;
 
-import java.util.Map;
-
 import com.github.mbelling.ws281x.Color;
 
-import led.ProcedureBundleTypes;
+import led.LEDDataBundle;
+import led.LEDStripManager;
+import led.ProcedureBundleFields;
 
 //A signal animation to notify the user that the strip is no longer ready for any reason (internal error, network disconnect, etc.)
 public class NoLongerReadyProcedure extends Procedure {
 
-	int totalSteps = 60;
+	int mTotalSteps = 60;
 	
-	boolean redLightActive = false;
+	boolean mRedLightActive = false;
 	
-	public NoLongerReadyProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
-		
+	public NoLongerReadyProcedure(LEDDataBundle _bundle) {
+		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
+			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
 	}
 	
 	@Override
 	public void update() {
-		running = true;
-		
-		if (step % 5 == 0) {
-			if (redLightActive) {
-				strip.setAllPixels(Color.BLACK);
+		if (mStep % 5 == 0) {
+			if (mRedLightActive) {
+				mStrip.setAllPixels(Color.BLACK);
 			}
 			else {
-				strip.setAllPixels(Color.RED);
+				mStrip.setAllPixels(Color.RED);
 			}
-			redLightActive = !redLightActive;
+			mRedLightActive = !mRedLightActive;
 		}
-		step++;
+		mStep++;
 		
-		if (step > totalSteps) {
-			strip.setAllPixels(Color.BLACK);
-			strip.procContainer.procedure = null;
+		if (mStep > mTotalSteps) {
+			mStrip.setAllPixels(Color.BLACK);
 			finishProcedure();
 		}
-		
-		running = false;
 	}
 }

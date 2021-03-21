@@ -5,17 +5,15 @@ import java.io.OutputStream;
 
 public class Sender extends Thread {
 	
-	DataOutputStream outStream;
+	DataOutputStream mOutStream;
 	
 	public Sender(OutputStream _outStream) {
-		outStream = new DataOutputStream(_outStream);
+		mOutStream = new DataOutputStream(_outStream);
 	}
-	
-	
 	
 	public void send(String _message) {
 		try {
-			outStream.writeUTF(_message);
+			mOutStream.writeUTF(_message);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

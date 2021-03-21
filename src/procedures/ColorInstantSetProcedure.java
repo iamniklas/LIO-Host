@@ -1,28 +1,25 @@
 package procedures;
 
-import java.util.Map;
-
 import com.github.mbelling.ws281x.Color;
 
-import led.ProcedureBundleTypes;
+import led.LEDDataBundle;
+import led.LEDStripManager;
+import led.ProcedureBundleFields;
 
 //Set every strip's pixel to a uniform color in a instant 1 frame animation
 public class ColorInstantSetProcedure extends Procedure {
 
-	Color tarColor;
+	Color mTargetColor;
 	
-	public ColorInstantSetProcedure(Map<ProcedureBundleTypes, Object> _bundle) {
-		if (_bundle.containsKey(ProcedureBundleTypes.COLOR_MAIN)) {			
-			tarColor = (Color) _bundle.get(ProcedureBundleTypes.COLOR_MAIN);
-		}
+	public ColorInstantSetProcedure(LEDDataBundle _bundle) {		
+		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
+			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		mTargetColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
 	}
 	
 	@Override
 	void update() {
-		strip.setAllPixels(tarColor);
-		
-		strip.procContainer.procedure = null;
+		mStrip.setAllPixels(mTargetColor);
 		finishProcedure();
 	}
-
 }
