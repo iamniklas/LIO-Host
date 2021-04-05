@@ -20,6 +20,11 @@ public class BootCompleteProcedure extends Procedure {
 		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
 			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
 	}
+
+	@Override
+	public void start() {
+		
+	}
 	
 	@Override
 	public void update() {

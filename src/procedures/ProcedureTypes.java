@@ -11,5 +11,7 @@ public enum ProcedureTypes {
 	Rainbow,
 	RainbowMono,
 	SimpleBPM,
-	NoLongerReady 
+	MultiProcedure,
+	JsonProcedure,
+	NoLongerReady
 }

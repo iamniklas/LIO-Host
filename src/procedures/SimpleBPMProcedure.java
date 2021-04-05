@@ -25,6 +25,11 @@ public class SimpleBPMProcedure extends Procedure {
 		mBeatStep = (60.0f / (float)mBpm)*1000.0f;
 		System.out.println("BEATSTEP: " + mBeatStep);
 	}
+
+	@Override
+	public void start() {
+		
+	}
 	
 	@Override
 	void update() {

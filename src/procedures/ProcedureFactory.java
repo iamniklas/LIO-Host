@@ -15,8 +15,10 @@ public class ProcedureFactory {
 		case FillInterpolated: 	 return new FillStripInterpolatedProcedure(_bundle);
 		case Rainbow:			 return new RainbowProcedure(_bundle);
 		case RainbowMono:		 return new RainbowMonoProcedure(_bundle);
-		case NoLongerReady:		 return new NoLongerReadyProcedure(_bundle);
 		case SimpleBPM:			 return new SimpleBPMProcedure(_bundle);
+		case MultiProcedure:	 return new MultiProcedure(_bundle);
+		case NoLongerReady:		 return new NoLongerReadyProcedure(_bundle);
+		case JsonProcedure:		 return new JsonProcedure(_bundle);
 		default: 				 return null;
 		}
 	}

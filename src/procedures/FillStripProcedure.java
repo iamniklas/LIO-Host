@@ -16,6 +16,14 @@ public class FillStripProcedure extends Procedure {
 			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
 		mFillColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
 		mModulo = (int) _bundle.get(ProcedureBundleFields.MODULO);
+		mIsSubProcedure = (boolean) _bundle.get(ProcedureBundleFields.IS_SUB_PROCEDURE);
+		
+		mSteps = 300;
+	}
+	
+	@Override
+	public void start() {
+		
 	}
 	
 	@Override
@@ -28,9 +36,11 @@ public class FillStripProcedure extends Procedure {
 		
 		mStep+=5;
 		
-		if (mStep >= LEDStripManager.LED_COUNT) {
+		if (mStep >= mSteps) {
 			//strip.setAllPixels(Color.BLACK);
-			finishProcedure();
+			if (!mIsSubProcedure) {
+				finishProcedure();				
+			}
 		}
 	}
 }

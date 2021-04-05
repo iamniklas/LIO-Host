@@ -6,28 +6,28 @@ import led.LEDStripManager;
 
 public class ProcContainer {
 	LEDStripManager mLedStrip;
-	ArrayList<Procedure> mProcedure = new ArrayList<Procedure>();
+	ArrayList<Procedure> mProcedures = new ArrayList<Procedure>();
 	
 	public ProcContainer(LEDStripManager _ledStripMng) {
 		mLedStrip = _ledStripMng;
 	}
 	
 	public void queueProcedure(Procedure _proc) {
-		mProcedure.add(_proc);
+		mProcedures.add(_proc);
 		_proc.mCallbacks.onProcedureQueued();
 	}
 	
 	public void removeCurrentProcedure() {
-		mProcedure.remove(0);
+		mProcedures.remove(0);
 		
-		if (mProcedure.size() > 0) {
-			mProcedure.get(0).mCallbacks.onProcedureStart();
+		if (mProcedures.size() > 0) {
+			mProcedures.get(0).mCallbacks.onProcedureStart(mProcedures.get(0));
 		}
 	}
 	
 	public void update() {
-		if(mProcedure.size() < 1) return;
+		if(mProcedures.size() < 1) return;
 		
-		mProcedure.get(0).update();
+		mProcedures.get(0).update();
 	}
 }

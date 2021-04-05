@@ -33,6 +33,11 @@ public class FadeToUniformColorProcedure extends Procedure {
 	}
 
 	@Override
+	public void start() {
+		
+	}
+	
+	@Override
 	void update() {
 		mCounter++;
 		mAlphaStep += mAlphaAddValue;

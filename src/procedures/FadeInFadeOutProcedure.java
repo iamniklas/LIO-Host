@@ -23,6 +23,11 @@ public class FadeInFadeOutProcedure extends Procedure {
 	}
 
 	@Override
+	public void start() {
+		
+	}
+	
+	@Override
 	void update() {
 		float d = (float) Math.abs(Math.sin(Math.toRadians(mStep)));
 		

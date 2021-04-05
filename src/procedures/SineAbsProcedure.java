@@ -20,6 +20,11 @@ public class SineAbsProcedure extends Procedure {
 	}
 
 	@Override
+	public void start() {
+		
+	}
+	
+	@Override
 	void update() {
 		mMoveAdditioner = mMoveAdditioner > Math.PI*4 ? 0 : mMoveAdditioner + 0.1f;
 		

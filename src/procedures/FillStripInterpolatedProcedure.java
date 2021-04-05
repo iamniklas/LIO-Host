@@ -23,6 +23,11 @@ public class FillStripInterpolatedProcedure extends Procedure {
 			mFillColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
 		}
 	}
+
+	@Override
+	public void start() {
+		
+	}
 	
 	@Override
 	void update() {

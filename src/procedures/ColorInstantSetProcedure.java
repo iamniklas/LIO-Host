@@ -16,6 +16,11 @@ public class ColorInstantSetProcedure extends Procedure {
 			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
 		mTargetColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
 	}
+
+	@Override
+	public void start() {
+		
+	}
 	
 	@Override
 	void update() {

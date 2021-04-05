@@ -1,11 +1,17 @@
 package led;
 
 import com.github.mbelling.ws281x.Color;
+import com.google.gson.annotations.SerializedName;
 
 public class ColorRGB {
 	
+	@SerializedName("R")
 	public int r = 255;
+	
+	@SerializedName("G")
 	public int g = 255;
+	
+	@SerializedName("B")
 	public int b = 255;
 	
 	public static final ColorRGB black = new ColorRGB(0, 0, 0);
@@ -74,6 +80,10 @@ public class ColorRGB {
 			case Blue: return new ColorRGB(r, g, cutHigh(b, _filter));
 			default: return this;
 		}
+	}
+	
+	public static ColorRGB fromSystemColor(Color _color) {
+		return new ColorRGB(_color.getRed(), _color.getGreen(), _color.getBlue());
 	}
 	
 	public ColorRGBA toRGBA(int _alpha) {

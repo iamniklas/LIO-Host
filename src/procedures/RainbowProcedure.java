@@ -23,11 +23,13 @@ public class RainbowProcedure extends Procedure {
 		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
 		      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
 		
-		System.out.println("REPETITIONS: " + _bundle.get(ProcedureBundleFields.REPETITIONS));
-		System.out.println("SPEED: " + _bundle.get(ProcedureBundleFields.SPEED));
-		
 		mRepetitions = (float) _bundle.get(ProcedureBundleFields.REPETITIONS);
 		mSpeed = (float) _bundle.get(ProcedureBundleFields.SPEED);
+	}
+
+	@Override
+	public void start() {
+		
 	}
 	
 	@Override
