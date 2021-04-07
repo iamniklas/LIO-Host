@@ -6,8 +6,6 @@ import led.ColorRGB;
 import led.json.LEDJsonProcedure;
 
 public class V0_0_0InterpreterStrategy implements IInterpreterStrategy {
-
-	@Deprecated
 	@Override
 	public ColorRGB[] interpretLine(String _line) {
 		return null;
@@ -17,5 +15,4 @@ public class V0_0_0InterpreterStrategy implements IInterpreterStrategy {
 	public LEDJsonProcedure interpretJson(String _json) {
 		return new Gson().fromJson(_json, LEDJsonProcedure.class);
 	}
-
 }

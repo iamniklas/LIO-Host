@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import led.json.interpreter.FileVersions;
+import led.json.interpreter.LEDInterpreter;
+
 public class Main {
 
 	static List<String> mArguments = new ArrayList<String>();
@@ -9,6 +12,8 @@ public class Main {
 		for (int i = 0; i < args.length; i++) {
 			mArguments.add(args[i]);
 		}
+		
+		LEDInterpreter.interpretLine(FileVersions.V0_0_0, "");
 		
 		boolean clearOnExit = false;
 		
@@ -23,6 +28,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		while(true) {
 			program.update();
