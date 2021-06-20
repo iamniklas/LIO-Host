@@ -17,6 +17,9 @@ public class ProcedureFactory {
 		case RainbowMono:		 return new RainbowMonoProcedure(_bundle);
 		case SimpleBPM:			 return new SimpleBPMProcedure(_bundle);
 		case MultiProcedure:	 return new MultiProcedure(_bundle);
+		case Blink:	 			 return new BlinkProcedure(_bundle);
+		case Navigation: 		 return new NavigationProcedure(_bundle);
+		case Progress: 			 return new ProgressProcedure(_bundle);
 		case NoLongerReady:		 return new NoLongerReadyProcedure(_bundle);
 		case JsonProcedure:		 return new JsonProcedure(_bundle);
 		default: 				 return null;

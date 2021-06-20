@@ -6,6 +6,6 @@ public class LEDJsonProcedure {
 	@SerializedName("meta")
 	public MetaInfo mMetaInfo;
 	
-	@SerializedName("led_procedure")
+	@SerializedName("led_state")
 	public LEDStateArray[] mLEDStates;
 }

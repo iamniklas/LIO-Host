@@ -17,8 +17,14 @@ public class ProcContainer {
 		_proc.mCallbacks.onProcedureQueued();
 	}
 	
+	public Procedure getActiveProcedure() {
+		return mProcedures.size() > 0 ? mProcedures.get(0) : null;
+	}
+	
 	public void removeCurrentProcedure() {
-		mProcedures.remove(0);
+		if (mProcedures.size() > 0) {
+			mProcedures.remove(0);
+		}
 		
 		if (mProcedures.size() > 0) {
 			mProcedures.get(0).mCallbacks.onProcedureStart(mProcedures.get(0));

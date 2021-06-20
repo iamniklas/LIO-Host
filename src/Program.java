@@ -1,9 +1,14 @@
-import led.ProcedureBundleFields;
+import com.google.gson.Gson;
+
+import led.ColorRGB;
 import led.LEDDataBundle;
 import led.LEDStripManager;
+import led.ProcedureBundleFields;
 import network.ReceiveCallback;
 import network.Server;
-import procedures.FillStripInterpolatedProcedure;
+import procedures.Procedure;
+import procedures.ProcedureFactory;
+import procedures.ProcedureTypes;
 
 public class Program implements ReceiveCallback {
 	
@@ -16,6 +21,10 @@ public class Program implements ReceiveCallback {
 		mServer.setListener(this);
 		mServer.start();
 		
+		LEDDataBundle dbundle = new LEDDataBundle();
+		dbundle.set(ProcedureBundleFields.COLOR_PRIMARY, ColorRGB.white50);
+		System.out.println(new Gson().toJson(dbundle));
+		
 		mStrip = new LEDStripManager(_clearOnExit);
 		System.out.println("Program \tINIT \tDONE");
 	}
@@ -26,21 +35,26 @@ public class Program implements ReceiveCallback {
 	
 	@Override
 	public void onReceiveMessage(String _message) {
-		System.out.println("Message received " + _message);
-		String[] parts = _message.split(" ");
-//		Color color = new Color(
-//				Integer.parseInt(parts[1]), 
-//				Integer.parseInt(parts[2]), 
-//				Integer.parseInt(parts[3]));
+		String[] parts = _message.split(":", 2);
+		String proc = parts[0];
+		String data = parts[1];
 		
-		int mod = Integer.parseInt(parts[0]);
-
-		LEDDataBundle bundle = new LEDDataBundle();
+		System.out.println(_message);
+		
+		ProcedureTypes type = ProcedureTypes.valueOf(proc);
+		LEDDataBundle bundle = new Gson().fromJson(data, LEDDataBundle.class);
+		bundle.set(ProcedureBundleFields.COLOR_PRIMARY, new Gson().fromJson(String.valueOf(bundle.get(ProcedureBundleFields.COLOR_PRIMARY)), ColorRGB.class));
+		bundle.set(ProcedureBundleFields.COLOR_SECONDARY, new Gson().fromJson(String.valueOf(bundle.get(ProcedureBundleFields.COLOR_SECONDARY)), ColorRGB.class));
+		LEDStripManager.mLEDStatus.mActive = bundle.get(ProcedureBundleFields.COLOR_SECONDARY) == ColorRGB.white50;
+		mServer.getClient(0).mSender.send(new Gson().toJson(LEDStripManager.mLEDStatus));
+		bundle.set(ProcedureBundleFields.COLOR_TERTIARY, new Gson().fromJson(String.valueOf(bundle.get(ProcedureBundleFields.COLOR_TERTIARY)), ColorRGB.class));
+		bundle.set(ProcedureBundleFields.DURATION, new Gson().fromJson(String.valueOf(bundle.get(ProcedureBundleFields.DURATION)), float.class));
 		bundle.set(ProcedureBundleFields.STRIP, mStrip);
 		bundle.set(ProcedureBundleFields.CALLBACK, mStrip);
-		bundle.set(ProcedureBundleFields.MODULO, mod);
 		
-		FillStripInterpolatedProcedure fillStripInterpolated = new FillStripInterpolatedProcedure(bundle);
-		mStrip.mProcContainer.queueProcedure(fillStripInterpolated);
+		Procedure p = ProcedureFactory.getProcedure(type, bundle);
+		
+		mStrip.mProcContainer.removeCurrentProcedure();
+		mStrip.mProcContainer.queueProcedure(p);
 	}
 }

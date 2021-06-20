@@ -35,7 +35,9 @@ public class Receiver extends Thread {
 					break;
 				
 				case Java:
-					mCallback.onReceiveMessage(mDataInputStream.readUTF());
+					String request = mDataInputStream.readUTF();
+					System.out.println(request);
+					mCallback.onReceiveMessage(request);
 					break;
 					
 				case CPP:
@@ -45,7 +47,6 @@ public class Receiver extends Thread {
 					break;
 					
 				case UNSPECIFIED:
-					System.out.println("F");
 					incomingSize = mDataInputStream.readByte();
 					mClientType = ClientType.values()[incomingSize];
 					System.out.println("Client is of type " + mClientType);

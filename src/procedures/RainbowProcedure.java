@@ -1,30 +1,33 @@
 package procedures;
 
-import com.google.gson.annotations.SerializedName;
-
 import led.ColorHSV;
 import led.LEDDataBundle;
 import led.LEDStripManager;
 import led.ProcedureBundleFields;
+import procedures.models.Direction;
 
 public class RainbowProcedure extends Procedure {
 	
-	@SerializedName(value="color")
 	ColorHSV mColorHSV = new ColorHSV(0, 1.0f, 1.0f);
 	
 	private float mHueCounter = 0;
+	private float[] mHueArrayCounter = new float[300];
 	
-	@SerializedName(value="repetitions")
-	public float mRepetitions = 0.75f;
-	@SerializedName(value="speed")
-	public float mSpeed = 3;
+	private float mRepetitions = 0.75f;
+	private float mSpeed = 3;
+	private Direction mDirection = Direction.Left;
 	
 	public RainbowProcedure(LEDDataBundle _bundle) {
 		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
 		      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
 		
-		mRepetitions = (float) _bundle.get(ProcedureBundleFields.REPETITIONS);
-		mSpeed = (float) _bundle.get(ProcedureBundleFields.SPEED);
+		mRepetitions = (float) ((double)_bundle.get(ProcedureBundleFields.REPETITIONS));
+		mSpeed = (float) ((double)_bundle.get(ProcedureBundleFields.SPEED));
+		mDirection = Direction.values()[(int)Math.round(((double)_bundle.get(ProcedureBundleFields.DIRECTION)))];
+		
+		for (int i = 0; i < mHueArrayCounter.length; i++) {
+			mHueArrayCounter[i] = Math.abs(i - 150);
+		}
 	}
 
 	@Override
@@ -34,9 +37,33 @@ public class RainbowProcedure extends Procedure {
 	
 	@Override
 	void update() {
-		mHueCounter = mHueCounter > 360 ? 0 : mHueCounter + mSpeed;
+		
+		switch (mDirection) {
+		case Center:
+			for (int i = 0; i < mHueArrayCounter.length; i++) {
+				mHueArrayCounter[i] = mHueArrayCounter[i] < 0 ? 360 : mHueArrayCounter[i] - mSpeed;
+			}
+			break;
+		case CenterInvert:
+			for (int i = 0; i < mHueArrayCounter.length; i++) {
+				mHueArrayCounter[i] = mHueArrayCounter[i] > 360 ? 0 : mHueArrayCounter[i] + mSpeed;
+			}
+			break;
+		case Left:
+			mHueCounter = mHueCounter > 360 ? 0 : mHueCounter + mSpeed;
+			break;
+		case Right:
+			mHueCounter = mHueCounter < 0 ? 360 : mHueCounter - mSpeed;
+			break;
+		
+		}
 		
 		for (int i = 0; i < LEDStripManager.LED_COUNT; i++) {
+			if (mDirection == Direction.Center || mDirection == Direction.CenterInvert) {
+				mColorHSV.h = (int) ((int) (i * (mRepetitions * (360.0f / (float)LEDStripManager.LED_COUNT))) + mHueArrayCounter[i]) % 360;
+				mStrip.setPixel(i, mColorHSV.ToRGB().toSystemColor());
+				continue;
+			}
 			mColorHSV.h = (int) ((int) (i * (mRepetitions * (360.0f / (float)LEDStripManager.LED_COUNT))) + mHueCounter) % 360;
 			mStrip.setPixel(i, mColorHSV.ToRGB().toSystemColor());
 		}

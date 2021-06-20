@@ -2,6 +2,10 @@ package network;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.google.gson.Gson;
+
+import led.LEDStripManager;
+
 public class ClientService extends Thread implements ReceiveCallback {
 	
 	static int mNextId = 0;
@@ -9,7 +13,7 @@ public class ClientService extends Thread implements ReceiveCallback {
 	
 	Server mServer;
 	Socket mSocket;
-	Sender mSender;
+	public Sender mSender;
 	Receiver mReceiver;
 	
 	public ClientService(Server _server, Socket _socket) {
@@ -28,13 +32,13 @@ public class ClientService extends Thread implements ReceiveCallback {
 			e.printStackTrace();
 		}
 		
+		mSender.send(new Gson().toJson(LEDStripManager.mLEDStatus));
+		
 		mReceiver.start();
 	}
 
 	@Override
 	public void onReceiveMessage(String _message) {
-		System.out.println(_message);
 		mServer.receiveMessage(_message);
-		//Server.makeRPCCallToAll(_message);
 	}
 }

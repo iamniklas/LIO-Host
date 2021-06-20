@@ -34,31 +34,15 @@ public class Server extends Thread {
 		}
 	}
 	
+	public ClientService getClient(int _id) {
+		return mClients.get(_id);
+	}
+	
 	public void setListener(ReceiveCallback _callback) {
 		mCallback = _callback;
 	}
 	
 	public void receiveMessage(String _message) {
 		mCallback.onReceiveMessage(_message);
-	}
-	
-	public static void makeRPCCallToAll(String _message) {
-		for (ClientService c : mClients) {
-			c.mSender.send(_message);
-		}
-	}
-	
-	public static void makeRPCCallNoHost(int _hostID, String _message) {
-		ArrayList<ClientService> targets = new ArrayList<ClientService>();
-		
-		for(ClientService client : mClients) {
-			if (client.mId != _hostID) {
-				targets.add(client);
-			}
-		}
-		
-		for(ClientService client : targets) {
-			client.mSender.send(_message);
-		}
 	}
 }

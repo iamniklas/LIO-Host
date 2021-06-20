@@ -5,12 +5,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import com.google.gson.Gson;
-
 import led.LEDDataBundle;
 import led.LEDStripManager;
 import led.ProcedureBundleFields;
 import led.json.LEDJsonProcedure;
+import led.json.interpreter.FileVersions;
+import led.json.interpreter.LEDInterpreter;
 
 public class JsonProcedure extends Procedure {
 
@@ -30,14 +30,14 @@ public class JsonProcedure extends Procedure {
 	public void start() {
 		
 	}
-
+	
 	@Override
 	void update() {
 		for (int i = 0; i < mLEDJsonProcedure.mMetaInfo.mLedCount; i++) {
 			mStrip.setPixel(i, mLEDJsonProcedure.mLEDStates[mStep].mLEDState[i].toSystemColor());
 		}
 		
-		mStep++;
+		mStep+=5;
 		
 		if (mStep >= mSteps) {
 			finishProcedure();
@@ -48,7 +48,7 @@ public class JsonProcedure extends Procedure {
 		  byte[] encoded;
 		try {
 			encoded = Files.readAllBytes(Paths.get(_path));
-			return new Gson().fromJson(new String(encoded, StandardCharsets.US_ASCII), LEDJsonProcedure.class);
+			return LEDInterpreter.interpretJson(FileVersions.V0_0_1, new String(encoded, StandardCharsets.US_ASCII));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

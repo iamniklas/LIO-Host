@@ -1,10 +1,14 @@
 package led.json.interpreter.strategies;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
+
+import com.google.gson.Gson;
 
 import led.ColorRGB;
 import led.json.LEDJsonProcedure;
+import led.json.LEDStateArray;
 
 public class V0_0_1InterpreterStrategy implements IInterpreterStrategy {
 
@@ -26,8 +30,18 @@ public class V0_0_1InterpreterStrategy implements IInterpreterStrategy {
 
 	@Override
 	public LEDJsonProcedure interpretJson(String _json) {
-		// TODO Auto-generated method stub
-		return null;
+		LEDJsonProcedure001Uncompiled jsonProc = new Gson().fromJson(_json, LEDJsonProcedure001Uncompiled.class);
+		LEDJsonProcedure result = new LEDJsonProcedure();
+		result.mMetaInfo = jsonProc.mMetaInfo;
+		List<LEDStateArray> l = new ArrayList<LEDStateArray>();
+		for (int i = 0; i < 300; i++) {
+			l.add(new LEDStateArray());
+			l.get(i).mLEDState = interpretLine(jsonProc.mLEDStates[i]);
+		}
+		result.mLEDStates = new LEDStateArray[300];
+		l.toArray(result.mLEDStates);
+		System.out.println(result.mLEDStates.length);
+		return result;
 	}
 
 }

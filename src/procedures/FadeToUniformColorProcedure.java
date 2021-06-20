@@ -1,6 +1,9 @@
 package procedures;
 
 import led.ProcedureBundleFields;
+
+import com.google.gson.Gson;
+
 import led.ColorRGB;
 import led.ColorRGBA;
 import led.LEDDataBundle;
@@ -21,11 +24,15 @@ public class FadeToUniformColorProcedure extends Procedure {
 	
 	public FadeToUniformColorProcedure(LEDDataBundle _bundle) {
 		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
 		
 		mTargetColor = (ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
 		mBaseColor = (ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_SECONDARY);
 		mDuration = (float) _bundle.get(ProcedureBundleFields.DURATION);
+		
+//		mTargetColor = new Gson().fromJson(_bundle.get(ProcedureBundleFields.COLOR_PRIMARY).toString(), ColorRGB.class);
+//		mBaseColor = new Gson().fromJson(_bundle.get(ProcedureBundleFields.COLOR_SECONDARY).toString(), ColorRGB.class);
+//		mDuration = new Gson().fromJson(_bundle.get(ProcedureBundleFields.DURATION).toString(), float.class);
 		
 		mSteps = (int) Math.ceil(mDuration / (mStrip.getFrametime() / 1000.0f));
 		
@@ -47,6 +54,7 @@ public class FadeToUniformColorProcedure extends Procedure {
 		mStrip.setAllPixels(outputColor.toRGB(mTargetColor).toSystemColor());
 		
 		if (mCounter > mSteps) {
+			mStrip.setAllPixels(mBaseColor.toSystemColor());
 			finishProcedure();
 		}
 	}

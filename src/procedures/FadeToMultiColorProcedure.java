@@ -33,6 +33,8 @@ public class FadeToMultiColorProcedure extends Procedure {
 			mAlphaAddValue[i] = 1 / (float)mSteps;
 		}
 		
+		start();
+		
 		//System.out.println("Multi-Fade Steps " + mSteps);
 	}
 	

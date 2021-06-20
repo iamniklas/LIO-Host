@@ -2,6 +2,7 @@ package procedures;
 
 import com.github.mbelling.ws281x.Color;
 
+import led.ColorRGB;
 import led.LEDDataBundle;
 import led.LEDStripManager;
 import led.ProcedureBundleFields;
@@ -16,7 +17,7 @@ public class FadeInFadeOutProcedure extends Procedure {
 		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
 			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
 		
-		Color targetColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
+		Color targetColor = ((ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY)).toSystemColor();
 		mColorPartModifier[0] = (float) targetColor.getRed() / 255.0f;
 		mColorPartModifier[1] = (float) targetColor.getGreen() / 255.0f;
 		mColorPartModifier[2] = (float) targetColor.getBlue() / 255.0f;	

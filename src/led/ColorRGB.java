@@ -16,6 +16,7 @@ public class ColorRGB {
 	
 	public static final ColorRGB black = new ColorRGB(0, 0, 0);
 	public static final ColorRGB white = new ColorRGB(255, 255, 255);
+	public static final ColorRGB white50 = new ColorRGB(128, 128, 128);
 	public static final ColorRGB red = new ColorRGB(255, 0, 0);
 	public static final ColorRGB green = new ColorRGB(0, 255, 0);
 	public static final ColorRGB blue = new ColorRGB(0, 0, 255);

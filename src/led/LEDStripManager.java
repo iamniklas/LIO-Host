@@ -1,24 +1,13 @@
 package led;
 
-import com.github.mbelling.ws281x.Color;
-import com.github.mbelling.ws281x.LedStripType;
-import com.github.mbelling.ws281x.Ws281xLedStrip;
+import com.github.mbelling.ws281x.*;
 
-import procedures.ProcContainer;
-import procedures.Procedure;
-import procedures.ProcedureCalls;
-import procedures.ProcedureFactory;
-import procedures.ProcedureTypes;
-import procedures.RainbowProcedure;
-import procedures.SleepProcedure;
-import procedures.BootCompleteProcedure;
-import procedures.FadeInFadeOutProcedure;
-import procedures.FadeToMultiColorProcedure;
-import procedures.FillStripProcedure;
-import procedures.JsonProcedure;
-import procedures.MultiProcedure;
+import led.json.LEDStatus;
+import procedures.*;
 
 public class LEDStripManager implements ProcedureCalls {
+	private final LEDStripConfig mLedStripConfig = new LEDStripConfig();
+	
 	public static final int LED_COUNT = 300;
 	static final int GPIO_PIN = 18;
 	static final int FREQ = 800000;
@@ -36,6 +25,8 @@ public class LEDStripManager implements ProcedureCalls {
 	public ProcContainer mProcContainer = new ProcContainer(this);
 	
 	private int mFrametime = 16;
+	
+	public static LEDStatus mLEDStatus = new LEDStatus();
 	
 	public LEDStripManager(boolean _clearOnExit) throws InterruptedException {
 		System.out.println("LED Strip \tINIT \tSTART");
@@ -64,64 +55,12 @@ public class LEDStripManager implements ProcedureCalls {
 		BootCompleteProcedure proc = (BootCompleteProcedure) ProcedureFactory.getProcedure(ProcedureTypes.BootComplete, bundle);
 		mProcContainer.queueProcedure(proc);
 		
-		LEDDataBundle b1 = new LEDDataBundle();
-		b1.set(ProcedureBundleFields.STRIP, this);
-		b1.set(ProcedureBundleFields.CALLBACK, this);
-		b1.set(ProcedureBundleFields.PATH, "testprocedure.json");
-		JsonProcedure json = (JsonProcedure) ProcedureFactory.getProcedure(ProcedureTypes.JsonProcedure, b1);
-		mProcContainer.queueProcedure(json);
-		
-		//Multi Procedure Test
-		LEDDataBundle b2 = new LEDDataBundle();
-		b2.set(ProcedureBundleFields.STRIP, this);
-		b2.set(ProcedureBundleFields.CALLBACK, this);
-		b2.set(ProcedureBundleFields.MODULO, 1);
-		b2.set(ProcedureBundleFields.COLOR_PRIMARY, ColorRGB.red.toSystemColor());
-		b2.set(ProcedureBundleFields.IS_SUB_PROCEDURE, true);
-		FillStripProcedure fill1 = (FillStripProcedure) ProcedureFactory.getProcedure(ProcedureTypes.Fill, b2);
-		LEDDataBundle b3 = new LEDDataBundle();
-		b3.set(ProcedureBundleFields.STRIP, this);
-		b3.set(ProcedureBundleFields.CALLBACK, this);
-		b3.set(ProcedureBundleFields.MODULO, 2);
-		b3.set(ProcedureBundleFields.COLOR_PRIMARY, ColorRGB.blue.toSystemColor());
-		b3.set(ProcedureBundleFields.IS_SUB_PROCEDURE, true);
-		FillStripProcedure fill2 = (FillStripProcedure) ProcedureFactory.getProcedure(ProcedureTypes.Fill, b3);
-		LEDDataBundle multiBundle = new LEDDataBundle();
-		multiBundle.set(ProcedureBundleFields.STRIP, this);
-		multiBundle.set(ProcedureBundleFields.CALLBACK, this);
-		multiBundle.set(ProcedureBundleFields.SUB_BUNDLE, new Procedure[] {fill1, fill2});
-		MultiProcedure multiProcedure = (MultiProcedure) ProcedureFactory.getProcedure(ProcedureTypes.MultiProcedure, multiBundle);
-		mProcContainer.queueProcedure(multiProcedure);
-		
-		LEDDataBundle b4 = new LEDDataBundle();
-		b4.set(ProcedureBundleFields.STRIP, this);
-		b4.set(ProcedureBundleFields.CALLBACK, this);
-		b4.set(ProcedureBundleFields.COLOR_PRIMARY, ColorRGB.black);
-		b4.set(ProcedureBundleFields.DURATION, 0.5f);
-		FadeToMultiColorProcedure multiuniform = (FadeToMultiColorProcedure) ProcedureFactory.getProcedure(ProcedureTypes.FadeToMultiColor, b4);
-		mProcContainer.queueProcedure(multiuniform);
-		
-		LEDDataBundle fio = new LEDDataBundle();
-		fio.set(ProcedureBundleFields.STRIP, this);
-		fio.set(ProcedureBundleFields.CALLBACK, this);
-		fio.set(ProcedureBundleFields.COLOR_PRIMARY, new Color(128, 0, 0));
-		FadeInFadeOutProcedure fioproc = (FadeInFadeOutProcedure) ProcedureFactory.getProcedure(ProcedureTypes.FadeInFadeOut, fio);
-		mProcContainer.queueProcedure(fioproc);
-		
-		LEDDataBundle waitBundle = new LEDDataBundle();
-		waitBundle.set(ProcedureBundleFields.REPETITIONS, 60);
-		waitBundle.set(ProcedureBundleFields.CALLBACK, this);
-		waitBundle.set(ProcedureBundleFields.STRIP, this);
-		SleepProcedure sleepProc = new SleepProcedure(waitBundle);
-		mProcContainer.queueProcedure(sleepProc);
-		
-		LEDDataBundle b5 = new LEDDataBundle();
-		b5.set(ProcedureBundleFields.STRIP, this);
-		b5.set(ProcedureBundleFields.CALLBACK, this);
-		b5.set(ProcedureBundleFields.SPEED, 5.0f);
-		b5.set(ProcedureBundleFields.REPETITIONS, 2.0f);
-		RainbowProcedure rainbowProc = (RainbowProcedure) ProcedureFactory.getProcedure(ProcedureTypes.Rainbow, b5);
-		mProcContainer.queueProcedure(rainbowProc);
+//		LEDDataBundle jsonBundle = new LEDDataBundle();
+//		jsonBundle.set(ProcedureBundleFields.STRIP,  this);
+//		jsonBundle.set(ProcedureBundleFields.CALLBACK,  this);
+//		jsonBundle.set(ProcedureBundleFields.PATH, "input.json");
+//		JsonProcedure jsonproc = new JsonProcedure(jsonBundle);
+//		mProcContainer.queueProcedure(jsonproc);
 	}
 	
 	public void update() {

@@ -5,7 +5,8 @@ public enum ProcedureTypes {
 	ColorInstantSet, 
 	FadeInFadeOut, 
 	FadeToMultiColor, 
-	FadeToUniformColor, 
+	FadeToUniformColor,
+	Blink,
 	Fill, 
 	FillInterpolated,
 	Rainbow,
@@ -13,5 +14,7 @@ public enum ProcedureTypes {
 	SimpleBPM,
 	MultiProcedure,
 	JsonProcedure,
+	Navigation,
+	Progress,
 	NoLongerReady
 }

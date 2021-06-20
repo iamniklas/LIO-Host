@@ -20,11 +20,8 @@ public class Main {
 		try {
 			program = new Program(clearOnExit);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 		while(true) {
 			program.update();
 		}

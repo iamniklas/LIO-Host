@@ -2,6 +2,7 @@ package procedures;
 
 import com.github.mbelling.ws281x.Color;
 
+import led.ColorRGB;
 import led.LEDDataBundle;
 import led.LEDStripManager;
 import led.ProcedureBundleFields;
@@ -14,8 +15,8 @@ public class FillStripProcedure extends Procedure {
 	public FillStripProcedure(LEDDataBundle _bundle) {
 		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
 			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
-		mFillColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
-		mModulo = (int) _bundle.get(ProcedureBundleFields.MODULO);
+		mFillColor = ((ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY)).toSystemColor();
+		mModulo = (int) ((double) _bundle.get(ProcedureBundleFields.MODULO));
 		mIsSubProcedure = (boolean) _bundle.get(ProcedureBundleFields.IS_SUB_PROCEDURE);
 		
 		mSteps = 300;

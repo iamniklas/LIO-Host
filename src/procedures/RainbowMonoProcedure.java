@@ -12,11 +12,13 @@ public class RainbowMonoProcedure extends Procedure {
 	int mHueCounter = 0;
 	
 	float mRepetitions = 1;
-	int mSpeed = 1;
+	float mSpeed = 1;
 	
 	public RainbowMonoProcedure(LEDDataBundle _bundle) {
 		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
 			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		
+		mSpeed = (float) ((double)_bundle.get(ProcedureBundleFields.SPEED));
 	}
 
 	@Override
@@ -26,7 +28,7 @@ public class RainbowMonoProcedure extends Procedure {
 	
 	@Override
 	void update() {
-		mColorHSV.h = mColorHSV.h > 360 ? 0 : mColorHSV.h + mSpeed;
+		mColorHSV.h = (int) (mColorHSV.h > 360.0f ? 0 : mColorHSV.h + mSpeed);
 		
 		mStrip.setAllPixels(mColorHSV.ToRGB().toSystemColor());
 	}
