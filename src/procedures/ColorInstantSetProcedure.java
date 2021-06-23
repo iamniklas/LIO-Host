@@ -2,6 +2,7 @@ package procedures;
 
 import com.github.mbelling.ws281x.Color;
 
+import led.ColorRGB;
 import led.LEDDataBundle;
 import led.LEDStripManager;
 import led.ProcedureBundleFields;
@@ -14,7 +15,7 @@ public class ColorInstantSetProcedure extends Procedure {
 	public ColorInstantSetProcedure(LEDDataBundle _bundle) {		
 		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
 			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
-		mTargetColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
+		mTargetColor = ((ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY)).toSystemColor();
 	}
 
 	@Override

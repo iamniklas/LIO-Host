@@ -14,6 +14,8 @@ public class NavigationProcedure extends Procedure {
 	public NavigationProcedure(LEDDataBundle _bundle) {
 		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
 			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		
+		 
 	}
 
 	@Override
@@ -23,6 +25,28 @@ public class NavigationProcedure extends Procedure {
 
 	@Override
 	void update() {
+		for (int i = 0; i < mMarkers.size(); i++) {
+			PositionMarker marker = mMarkers.get(i);
+			switch (marker.mMarkerSize) {
+			case Large:
+				
+				break;
+			case Medium:
+				
+				break;
+			case Small:
+				
+				break;
+			case Single:
+				mStrip.setPixel((int)(marker.mXPosition * 180.0f), marker.mColor.toSystemColor());
+				break;
+			
+			default:
+				break;
+			
+			}
+		}
 		
+		finishProcedure();
 	}
 }
