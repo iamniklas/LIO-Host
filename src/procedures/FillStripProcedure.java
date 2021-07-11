@@ -13,8 +13,8 @@ public class FillStripProcedure extends Procedure {
 	public int mModulo = 1;
 	
 	public FillStripProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
+		
 		mFillColor = ((ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY)).toSystemColor();
 		mModulo = (int) ((double) _bundle.get(ProcedureBundleFields.MODULO));
 		mIsSubProcedure = (boolean) _bundle.get(ProcedureBundleFields.IS_SUB_PROCEDURE);

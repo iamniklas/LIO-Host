@@ -16,7 +16,7 @@ public class Sender extends Thread {
 			mOutStream.writeUTF(_message);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 }

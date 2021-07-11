@@ -14,8 +14,7 @@ public class BlinkProcedure extends Procedure {
 	int mModulo = 2;
 	
 	public BlinkProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 		
 		mBlinkColor = ((ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY)).toSystemColor();
 		mFrames = Math.round(((float)_bundle.get(ProcedureBundleFields.DURATION)));

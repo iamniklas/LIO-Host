@@ -36,7 +36,6 @@ public class Receiver extends Thread {
 				
 				case Java:
 					String request = mDataInputStream.readUTF();
-					System.out.println(request);
 					mCallback.onReceiveMessage(request);
 					break;
 					
@@ -49,16 +48,15 @@ public class Receiver extends Thread {
 				case UNSPECIFIED:
 					incomingSize = mDataInputStream.readByte();
 					mClientType = ClientType.values()[incomingSize];
-					System.out.println("Client is of type " + mClientType);
 					break;
 				}
 			}
 			catch (IOException e) {
 				try {
+					//System.out.println("An error occured while receiving incoming data. Type: " + e.getClass().toString());
 					mSocket.close();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					//System.out.println("An error occured while closing the socket. Type: " + e1.getClass().toString());
 				}
 			}
 		}

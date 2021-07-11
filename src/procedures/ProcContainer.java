@@ -36,4 +36,10 @@ public class ProcContainer {
 		
 		mProcedures.get(0).update();
 	}
+	
+	public void postUpdate() {
+		if(mProcedures.size() < 1) return;
+		
+		mProcedures.get(0).postUpdate();
+	}
 }

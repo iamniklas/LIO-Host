@@ -23,8 +23,6 @@ public class ClientService extends Thread implements ReceiveCallback {
 		mServer = _server;
 		mSocket = _socket;
 		
-		System.out.println("New client connected");
-		
 		try {
 			mSender = new Sender(mSocket.getOutputStream());
 			mReceiver = new Receiver(mSocket, mSocket.getInputStream(), this);

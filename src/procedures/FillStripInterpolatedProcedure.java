@@ -17,8 +17,7 @@ public class FillStripInterpolatedProcedure extends Procedure {
 	InterpolationType mInterpolationType = InterpolationType.EaseOutBounce;
 
 	public FillStripInterpolatedProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			  (ProcedureCalls)_bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 		if (_bundle.hasKey(ProcedureBundleFields.COLOR_PRIMARY)) {
 			mFillColor = (Color) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
 		}

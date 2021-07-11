@@ -13,8 +13,7 @@ public class SineAbsProcedure extends Procedure {
 	float mMoveAdditioner = 0;
 	
 	public SineAbsProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 		
 		mColor = (ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY); 
 	}

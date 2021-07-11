@@ -18,6 +18,7 @@ public class ProcedureFactory {
 		case SimpleBPM:			 return new SimpleBPMProcedure(_bundle);
 		case MultiProcedure:	 return new MultiProcedure(_bundle);
 		case Blink:	 			 return new BlinkProcedure(_bundle);
+		case Glitter:				 return new GlitterProcedure(_bundle);
 		case Navigation: 		 return new NavigationProcedure(_bundle);
 		case Progress: 			 return new ProgressProcedure(_bundle);
 		case NoLongerReady:		 return new NoLongerReadyProcedure(_bundle);

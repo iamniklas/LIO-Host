@@ -14,8 +14,7 @@ public class FadeInFadeOutProcedure extends Procedure {
 	private int mTotalSteps = 180;
 	
 	public FadeInFadeOutProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 		
 		Color targetColor = ((ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY)).toSystemColor();
 		mColorPartModifier[0] = (float) targetColor.getRed() / 255.0f;

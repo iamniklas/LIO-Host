@@ -54,17 +54,11 @@ public class LEDStripManager implements ProcedureCalls {
 		
 		BootCompleteProcedure proc = (BootCompleteProcedure) ProcedureFactory.getProcedure(ProcedureTypes.BootComplete, bundle);
 		mProcContainer.queueProcedure(proc);
-		
-//		LEDDataBundle jsonBundle = new LEDDataBundle();
-//		jsonBundle.set(ProcedureBundleFields.STRIP,  this);
-//		jsonBundle.set(ProcedureBundleFields.CALLBACK,  this);
-//		jsonBundle.set(ProcedureBundleFields.PATH, "input.json");
-//		JsonProcedure jsonproc = new JsonProcedure(jsonBundle);
-//		mProcContainer.queueProcedure(jsonproc);
 	}
 	
 	public void update() {
 		mProcContainer.update();
+		mProcContainer.postUpdate();
 		
 		for (int i = 0; i < mStripData.mStrip.size(); i++) {
 			mStrip.setPixel(i, mStripData.mStrip.get(i));

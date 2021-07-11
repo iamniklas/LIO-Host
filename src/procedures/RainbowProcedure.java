@@ -18,8 +18,7 @@ public class RainbowProcedure extends Procedure {
 	private Direction mDirection = Direction.Left;
 	
 	public RainbowProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-		      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 		
 		mRepetitions = (float) ((double)_bundle.get(ProcedureBundleFields.REPETITIONS));
 		mSpeed = (float) ((double)_bundle.get(ProcedureBundleFields.SPEED));

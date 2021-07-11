@@ -15,8 +15,7 @@ public class RainbowMonoProcedure extends Procedure {
 	float mSpeed = 1;
 	
 	public RainbowMonoProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 		
 		mSpeed = (float) ((double)_bundle.get(ProcedureBundleFields.SPEED));
 	}

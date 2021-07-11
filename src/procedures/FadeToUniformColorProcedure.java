@@ -23,16 +23,11 @@ public class FadeToUniformColorProcedure extends Procedure {
 	private float mAlphaAddValue = 0.0f;
 	
 	public FadeToUniformColorProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-		      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 		
 		mTargetColor = (ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
 		mBaseColor = (ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_SECONDARY);
 		mDuration = (float) _bundle.get(ProcedureBundleFields.DURATION);
-		
-//		mTargetColor = new Gson().fromJson(_bundle.get(ProcedureBundleFields.COLOR_PRIMARY).toString(), ColorRGB.class);
-//		mBaseColor = new Gson().fromJson(_bundle.get(ProcedureBundleFields.COLOR_SECONDARY).toString(), ColorRGB.class);
-//		mDuration = new Gson().fromJson(_bundle.get(ProcedureBundleFields.DURATION).toString(), float.class);
 		
 		mSteps = (int) Math.ceil(mDuration / (mStrip.getFrametime() / 1000.0f));
 		

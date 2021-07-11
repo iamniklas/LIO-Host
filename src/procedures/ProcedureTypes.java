@@ -7,6 +7,7 @@ public enum ProcedureTypes {
 	FadeToMultiColor, 
 	FadeToUniformColor,
 	Blink,
+	Glitter,
 	Fill, 
 	FillInterpolated,
 	Rainbow,

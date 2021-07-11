@@ -9,8 +9,7 @@ public class MultiProcedure extends Procedure {
 	Procedure[] mProcedures;
 	
 	public MultiProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 		
 		mProcedures = (Procedure[]) _bundle.get(ProcedureBundleFields.SUB_BUNDLE);
 	}

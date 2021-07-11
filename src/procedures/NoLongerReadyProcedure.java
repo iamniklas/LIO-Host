@@ -3,8 +3,6 @@ package procedures;
 import com.github.mbelling.ws281x.Color;
 
 import led.LEDDataBundle;
-import led.LEDStripManager;
-import led.ProcedureBundleFields;
 
 //A signal animation to notify the user that the strip is no longer ready for any reason (internal error, network disconnect, etc.)
 public class NoLongerReadyProcedure extends Procedure {
@@ -14,8 +12,7 @@ public class NoLongerReadyProcedure extends Procedure {
 	boolean mRedLightActive = false;
 	
 	public NoLongerReadyProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 	}
 
 	@Override

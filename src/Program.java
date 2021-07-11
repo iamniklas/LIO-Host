@@ -21,10 +21,6 @@ public class Program implements ReceiveCallback {
 		mServer.setListener(this);
 		mServer.start();
 		
-		LEDDataBundle dbundle = new LEDDataBundle();
-		dbundle.set(ProcedureBundleFields.COLOR_PRIMARY, ColorRGB.white50);
-		System.out.println(new Gson().toJson(dbundle));
-		
 		mStrip = new LEDStripManager(_clearOnExit);
 		System.out.println("Program \tINIT \tDONE");
 	}
@@ -38,8 +34,6 @@ public class Program implements ReceiveCallback {
 		String[] parts = _message.split(":", 2);
 		String proc = parts[0];
 		String data = parts[1];
-		
-		System.out.println(_message);
 		
 		ProcedureTypes type = ProcedureTypes.valueOf(proc);
 		LEDDataBundle bundle = new Gson().fromJson(data, LEDDataBundle.class);

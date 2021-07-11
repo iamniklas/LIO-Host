@@ -20,8 +20,8 @@ public class SimpleBPMProcedure extends Procedure {
 	float mCounter = 0.0f;
 	
 	public SimpleBPMProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
+		
 		mBeatStep = (60.0f / (float)mBpm)*1000.0f;
 		System.out.println("BEATSTEP: " + mBeatStep);
 	}

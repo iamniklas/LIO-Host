@@ -20,8 +20,7 @@ public class FadeToMultiColorProcedure extends Procedure {
 	private float[] mAlphaAddValue = new float[300];
 	
 	public FadeToMultiColorProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 		
 		mTargetColor = (ColorRGB) _bundle.get(ProcedureBundleFields.COLOR_PRIMARY);
 		

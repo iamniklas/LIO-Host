@@ -17,8 +17,7 @@ public class BootCompleteProcedure extends Procedure {
 								   240, 250, 260, 270, 280, 290, 299};
 	
 	public BootCompleteProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 	}
 
 	@Override

@@ -17,8 +17,7 @@ public class JsonProcedure extends Procedure {
 	LEDJsonProcedure mLEDJsonProcedure;
 	
 	public JsonProcedure(LEDDataBundle _bundle) {
-		super((LEDStripManager)_bundle.get(ProcedureBundleFields.STRIP), 
-			      (ProcedureCalls) _bundle.get(ProcedureBundleFields.CALLBACK));
+		super(_bundle);
 
 		mLEDJsonProcedure = loadFromFile((String) _bundle.get(ProcedureBundleFields.PATH));
 		mSteps = mLEDJsonProcedure.mLEDStates.length - 1;
