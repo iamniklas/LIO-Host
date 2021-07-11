@@ -27,6 +27,22 @@ public class ColorRGBA {
 				(int)((1 - a/255.0f) * _baseColor.b + (a/255.0f) * b));
 	}
 	
+	public ColorRGBA dim(float _percentage) {
+		return new ColorRGBA(
+				(int)(r * _percentage), 
+				(int)(g * _percentage), 
+				(int)(b * _percentage),
+				(int)(a * _percentage));
+	}
+	
+	public ColorRGBA dim(float _percentageR, float _percentageG, float _percentageB, float _percentageA) {
+		return new ColorRGBA(
+				(int)(r * _percentageR), 
+				(int)(g * _percentageG), 
+				(int)(b * _percentageB),
+				(int)(a * _percentageA));
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("R%d G%d B%d A%d", r, g, b, a);

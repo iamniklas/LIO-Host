@@ -124,6 +124,13 @@ public class ColorRGB {
 				(int)(b * _percentage));
 	}
 	
+	public ColorRGB dim(float _percentageR, float _percentageG, float _percentageB) {
+		return new ColorRGB(
+				(int)(r * _percentageR), 
+				(int)(g * _percentageG), 
+				(int)(b * _percentageB));
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("R%d G%d B%d", r, g, b);
