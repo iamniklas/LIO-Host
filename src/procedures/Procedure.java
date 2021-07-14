@@ -21,7 +21,7 @@ public abstract class Procedure {
 		mCallbacks = (ProcedureCalls)_bundle.get(ProcedureBundleFields.CALLBACK);
 		
 		if (_bundle.hasKey(ProcedureBundleFields.MODULO)) {
-			mModulo = (int) ((double) _bundle.get(ProcedureBundleFields.MODULO));
+			//mModulo = (int) ((double) _bundle.get(ProcedureBundleFields.MODULO));
 		}
 	}
 	
